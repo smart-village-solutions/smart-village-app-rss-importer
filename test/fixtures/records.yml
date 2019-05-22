@@ -1,0 +1,24 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  external_id: MyString
+  json_data: 
+  xml_data: MyText
+
+two:
+  external_id: MyString
+  json_data: 
+  xml_data: MyText
+
+# == Schema Information
+#
+# Table name: records
+#
+#  id          :bigint           not null, primary key
+#  external_id :string
+#  json_data   :jsonb
+#  xml_data    :text
+#  type        :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
