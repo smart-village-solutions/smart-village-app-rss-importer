@@ -13,21 +13,10 @@ class Importer
 
     if @current_user.present?
       @record_type = record_type
-      @record = new_record
-      @record.load_xml_data
-      @record.convert_xml_to_hash
+      @record = Record.new(current_user: @current_user)
+      @record.load_rss_data
+      @record.convert_rss_to_hash
       send_json_to_server
-    end
-  end
-
-  def new_record
-    case @record_type
-    when :poi
-      PoiRecord.new(current_user: @current_user)
-    when :tour
-      TourRecord.new(current_user: @current_user)
-    when :event
-      EventRecord.new(current_user: @current_user)
     end
   end
 
@@ -47,6 +36,7 @@ class Importer
   def send_json_to_server
     access_token = Authentication.new.access_token
     base_url = Rails.application.credentials.target_server[:url]
+    # TODO: Define url endpoint
     url = "#{base_url}/tobedefined"
 
     begin

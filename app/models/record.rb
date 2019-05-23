@@ -8,7 +8,7 @@ class Record < ApplicationRecord
     super
   end
 
-  def load_xml_data
+  def load_rss_data
     raise "Abstract Method"
   end
 
@@ -16,7 +16,7 @@ class Record < ApplicationRecord
     hash_data.to_json
   end
 
-  def convert_xml_to_hash
+  def convert_rss_to_hash
     raise "Abstract Method"
   end
 
