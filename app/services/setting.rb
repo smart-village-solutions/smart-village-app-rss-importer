@@ -10,6 +10,6 @@ class Setting
   end
 
   def file_name
-    Rails.root.join('config', 'settings.yml')
+    Rails.root.join('config', 'settings', 'settings.yml')
   end
 end
