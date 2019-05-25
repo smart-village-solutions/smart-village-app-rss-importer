@@ -35,6 +35,7 @@ class Authentication
   end
 
   def save_tokens(token_hash)
+    setting.config["oauth"] = {} if setting.config["oauth"].blank?
     setting.config["oauth"]["access_token"] = token_hash.fetch("access_token", "")
     setting.config["oauth"]["refresh_token"] = token_hash.fetch("refresh_token", "")
     setting.config["oauth"]["expires_in"] = token_hash.fetch("expires_in", "")
