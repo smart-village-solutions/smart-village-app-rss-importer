@@ -1,15 +1,21 @@
 class Record < ApplicationRecord
-  attr_accessor :current_user
+  attr_accessor :current_user, :source_url
 
   audited only: :updated_at
 
-  def initialize(current_user: nil)
+  def initialize(current_user: nil, source_url: nil)
     @current_user = current_user
+    @source_url = source_url
     super
   end
 
   def load_rss_data
-    raise "Abstract Method"
+    result = ApiRequestService.new(source_url).get_request(false)
+
+    return unless result.code == "200"
+    return unless result.body.present?
+
+    self.xml_data = result.body
   end
 
   def convert_to_json(hash_data)
@@ -17,6 +23,7 @@ class Record < ApplicationRecord
   end
 
   def convert_rss_to_hash
+    # TODO: Implement parser
     raise "Abstract Method"
   end
 

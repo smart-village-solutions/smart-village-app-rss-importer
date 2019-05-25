@@ -20,7 +20,7 @@ env :GEM_HOME, '/usr/local/bundle'
 env :BUNDLE_APP_CONFIG, '/usr/local/bundle'
 
 every 1.hour do
-  runner "Importer.new"
+  runner "RssFeeds.import"
 end
 
 # Learn more: http://github.com/javan/whenever
