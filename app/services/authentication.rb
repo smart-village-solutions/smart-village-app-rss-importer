@@ -30,7 +30,7 @@ class Authentication
       data = JSON.parse(result.body)
       save_tokens(data)
     else
-      p result.body
+      result.body
     end
   end
 
