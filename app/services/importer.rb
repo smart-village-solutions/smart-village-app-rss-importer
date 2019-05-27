@@ -35,7 +35,7 @@ class Importer
   def send_json_to_server
     access_token = Authentication.new.access_token
     base_url = Rails.application.credentials.target_server[:url]
-    url = "#{base_url}/api"
+    url = "#{base_url}/"
 
     begin
       result = ApiRequestService.new(url, nil, nil, @record.json_data, {Authorization: "Bearer #{access_token}"}).post_request
