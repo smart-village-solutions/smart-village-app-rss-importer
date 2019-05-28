@@ -63,7 +63,7 @@ class Record < ApplicationRecord
   def data_provider
     return { name: "ReturnDataProvider"} if @current_user.blank?
 
-    @current_user.fetch("data_provider", { name: "FetchFallback" })
+    @current_user.fetch("data_provider", { name: @current_user.to_json })
   end
 end
 
