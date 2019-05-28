@@ -28,7 +28,7 @@ class Importer
       result = ApiRequestService.new(url, nil, nil, nil, {Authorization: "Bearer #{access_token}"}).get_request
       @current_user = JSON.parse(result.body)
     rescue => e
-      @current_user = { data_provider: {} }
+      @current_user = { data_provider: { name: "LoadUserData" } }
     end
   end
 
