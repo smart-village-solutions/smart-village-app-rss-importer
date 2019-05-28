@@ -46,7 +46,7 @@ class Record < ApplicationRecord
         url: xml_item.at_xpath("link").try(:text),
         description: "source url of original article"
       },
-      data_provider: data_provider(@current_user),
+      data_provider: data_provider,
       contentBlocks: [
         {
           title: xml_item.at_xpath("title").try(:text),
@@ -60,10 +60,10 @@ class Record < ApplicationRecord
     xml_item.at_xpath("pubDate").try(:text)
   end
 
-  def data_provider(current_user)
-    return {} if current_user.blank?
+  def data_provider
+    return {} if @current_user.blank?
 
-    current_user.fetch("data_provider", {})
+    @current_user.fetch("data_provider", {})
   end
 end
 
