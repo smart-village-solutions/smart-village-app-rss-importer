@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Record < ApplicationRecord
   attr_accessor :current_user, :source_url
 
@@ -35,36 +37,37 @@ class Record < ApplicationRecord
 
   private
 
-  def parse_single_news_from_xml(xml_item)
-    {
-      author: xml_item.xpath("creator").try(:text),
-      full_version: false,
-      news_type: "news",
-      publication_date: publication_date(xml_item),
-      published_at: publication_date(xml_item),
-      source_url: {
-        url: xml_item.at_xpath("link").try(:text),
-        description: "source url of original article"
-      },
-      data_provider: data_provider,
-      contentBlocks: [
-        {
-          title: xml_item.at_xpath("title").try(:text),
-          body: xml_item.at_xpath("description").try(:text)
-        }
-      ]
-    }
-  end
+    def parse_single_news_from_xml(xml_item)
+      {
+        author: xml_item.xpath("creator").try(:text),
+        title: xml_item.at_xpath("title").try(:text),
+        full_version: false,
+        news_type: "news",
+        publication_date: publication_date(xml_item),
+        published_at: publication_date(xml_item),
+        source_url: {
+          url: xml_item.at_xpath("link").try(:text),
+          description: "source url of original article"
+        },
+        data_provider: data_provider,
+        contentBlocks: [
+          {
+            title: xml_item.at_xpath("title").try(:text),
+            body: xml_item.at_xpath("description").try(:text)
+          }
+        ]
+      }
+    end
 
-  def publication_date(xml_item)
-    xml_item.at_xpath("pubDate").try(:text)
-  end
+    def publication_date(xml_item)
+      xml_item.at_xpath("pubDate").try(:text)
+    end
 
-  def data_provider
-    return {} if @current_user.blank?
+    def data_provider
+      return {} if @current_user.blank?
 
-    @current_user.fetch("data_provider", {})
-  end
+      @current_user.fetch("data_provider", {})
+    end
 end
 
 # == Schema Information
