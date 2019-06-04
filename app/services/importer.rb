@@ -1,5 +1,5 @@
 class Importer
-  attr_accessor :access_token, :current_user
+  attr_accessor :access_token, :current_user, :feed
 
   # Steps for Importer
   # - Load Login Credentials from server
@@ -8,7 +8,8 @@ class Importer
   # - send JSON Data to server
   # - save response from server an log it
   # - send notifications
-  def initialize(source_url: nil)
+  def initialize(feed: nil)
+    @feed = feed
     load_user_data
 
     if @current_user.present?
@@ -20,7 +21,7 @@ class Importer
   end
 
   def load_user_data
-    access_token = Authentication.new.access_token
+    access_token = Authentication.new(feed: @feed).access_token
     base_url = Rails.application.credentials.auth_server[:url]
     url = "#{base_url}/data_provider.json"
 
@@ -33,7 +34,7 @@ class Importer
   end
 
   def send_json_to_server
-    access_token = Authentication.new.access_token
+    access_token = Authentication.new(feed: @feed).access_token
     base_url = Rails.application.credentials.target_server[:url]
     url = "#{base_url}/"
 
