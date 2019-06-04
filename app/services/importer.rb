@@ -10,27 +10,11 @@ class Importer
   # - send notifications
   def initialize(feed: nil)
     @feed = feed
-    load_user_data
 
-    if @current_user.present?
-      @record = Record.new(current_user: @current_user, source_url: @feed[:url])
-      @record.load_rss_data
-      @record.convert_rss_to_hash
-      send_json_to_server
-    end
-  end
-
-  def load_user_data
-    access_token = Authentication.new(feed: @feed).access_token
-    base_url = Rails.application.credentials.auth_server[:url]
-    url = "#{base_url}/data_provider.json"
-
-    begin
-      result = ApiRequestService.new(url, nil, nil, nil, {Authorization: "Bearer #{access_token}"}).get_request
-      @current_user = JSON.parse(result.body)
-    rescue => e
-      @current_user = { data_provider: { name: "LoadUserData" } }
-    end
+    @record = Record.new(source_url: @feed[:url])
+    @record.load_rss_data
+    @record.convert_rss_to_hash
+    send_json_to_server
   end
 
   def send_json_to_server

@@ -1,10 +1,9 @@
 class Record < ApplicationRecord
-  attr_accessor :current_user, :source_url
+  attr_accessor :source_url
 
   audited only: :updated_at
 
-  def initialize(current_user: nil, source_url: nil)
-    @current_user = current_user
+  def initialize(source_url: nil)
     @source_url = source_url
     super
   end
@@ -46,7 +45,6 @@ class Record < ApplicationRecord
         url: xml_item.at_xpath("link").try(:text),
         description: "source url of original article"
       },
-      data_provider: data_provider,
       contentBlocks: [
         {
           title: xml_item.at_xpath("title").try(:text),
@@ -58,12 +56,6 @@ class Record < ApplicationRecord
 
   def publication_date(xml_item)
     xml_item.at_xpath("pubDate").try(:text)
-  end
-
-  def data_provider
-    return {} if @current_user.blank?
-
-    @current_user.fetch("data_provider", {})
   end
 end
 
