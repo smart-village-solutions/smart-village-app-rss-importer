@@ -26,17 +26,20 @@ class Authentication
     end
   end
 
-  def save_tokens(token_hash)
-    key = @feed[:auth][:key]
-    setting.config[key] = {} if setting.config[key].blank?
-    setting.config[key]["access_token"] = token_hash.fetch("access_token", "")
-    setting.config[key]["expires_in"] = token_hash.fetch("expires_in", "")
-    setting.config[key]["created_at"] = token_hash.fetch("created_at", "")
-    setting.save
-  end
-
   def access_token
     load_access_tokens
-    setting.config["oauth"]["access_token"]
+    key = @feed[:auth][:key]
+    setting.config[key]["access_token"]
   end
+
+  private
+
+    def save_tokens(token_hash)
+      key = @feed[:auth][:key]
+      setting.config[key] = {} if setting.config[key].blank?
+      setting.config[key]["access_token"] = token_hash.fetch("access_token", "")
+      setting.config[key]["expires_in"] = token_hash.fetch("expires_in", "")
+      setting.config[key]["created_at"] = token_hash.fetch("created_at", "")
+      setting.save
+    end
 end
