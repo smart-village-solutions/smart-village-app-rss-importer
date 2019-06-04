@@ -13,7 +13,7 @@ class Importer
     load_user_data
 
     if @current_user.present?
-      @record = Record.new(current_user: @current_user, source_url: source_url)
+      @record = Record.new(current_user: @current_user, source_url: @feed[:url])
       @record.load_rss_data
       @record.convert_rss_to_hash
       send_json_to_server
