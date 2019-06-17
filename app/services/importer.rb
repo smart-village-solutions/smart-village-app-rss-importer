@@ -1,5 +1,5 @@
 class Importer
-  attr_accessor :access_token, :current_user
+  attr_accessor :access_token, :current_user, :feed
 
   # Steps for Importer
   # - Load Login Credentials from server
@@ -8,32 +8,17 @@ class Importer
   # - send JSON Data to server
   # - save response from server an log it
   # - send notifications
-  def initialize(source_url: nil)
-    load_user_data
+  def initialize(feed: nil)
+    @feed = feed
 
-    if @current_user.present?
-      @record = Record.new(current_user: @current_user, source_url: source_url)
-      @record.load_rss_data
-      @record.convert_rss_to_hash
-      send_json_to_server
-    end
-  end
-
-  def load_user_data
-    access_token = Authentication.new.access_token
-    base_url = Rails.application.credentials.auth_server[:url]
-    url = "#{base_url}/data_provider.json"
-
-    begin
-      result = ApiRequestService.new(url, nil, nil, nil, {Authorization: "Bearer #{access_token}"}).get_request
-      @current_user = JSON.parse(result.body)
-    rescue => e
-      @current_user = { data_provider: { name: "LoadUserData" } }
-    end
+    @record = Record.new(source_url: @feed[:url])
+    @record.load_rss_data
+    @record.convert_rss_to_hash
+    send_json_to_server
   end
 
   def send_json_to_server
-    access_token = Authentication.new.access_token
+    access_token = Authentication.new(feed: @feed).access_token
     base_url = Rails.application.credentials.target_server[:url]
     url = "#{base_url}/"
 
