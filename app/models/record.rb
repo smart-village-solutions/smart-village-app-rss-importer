@@ -50,7 +50,7 @@ class Record < ApplicationRecord
       contentBlocks: [
         {
           title: xml_item.at_xpath("title").try(:text),
-          body: xml_item.at_xpath("description").try(:text)
+          body: xml_item.at_xpath("content:encoded").try(:text)
         }
       ]
     }
