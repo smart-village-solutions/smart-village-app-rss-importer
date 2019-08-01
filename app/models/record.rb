@@ -37,7 +37,7 @@ class Record < ApplicationRecord
 
     def parse_single_news_from_xml(xml_item)
       {
-        author: xml_item.xpath("creator").try(:text),
+        author: xml_item.xpath("dc:creator").try(:text),
         full_version: false,
         news_type: "news",
         publication_date: publication_date(xml_item),
