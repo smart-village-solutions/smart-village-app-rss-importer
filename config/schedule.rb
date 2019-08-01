@@ -19,7 +19,7 @@ env :BUNDLE_PATH, '/usr/local/bundle'
 env :GEM_HOME, '/usr/local/bundle'
 env :BUNDLE_APP_CONFIG, '/usr/local/bundle'
 
-every 1.hour do
+every 5.minutes do
   runner "RssFeeds.import"
 end
 
