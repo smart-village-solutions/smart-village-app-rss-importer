@@ -26,7 +26,6 @@ class Record < ApplicationRecord
   def convert_rss_to_hash
     news_data = []
     @xml_doc = Nokogiri.XML(xml_data)
-    @xml_doc.remove_namespaces!
     @xml_doc.xpath("//item").each do |xml_item|
       news_data << parse_single_news_from_xml(xml_item)
     end
@@ -36,29 +35,36 @@ class Record < ApplicationRecord
 
   private
 
-  def parse_single_news_from_xml(xml_item)
-    {
-      author: xml_item.xpath("creator").try(:text),
-      full_version: false,
-      news_type: "news",
-      publication_date: publication_date(xml_item),
-      published_at: publication_date(xml_item),
-      source_url: {
-        url: xml_item.at_xpath("link").try(:text),
-        description: "source url of original article"
-      },
-      contentBlocks: [
-        {
-          title: xml_item.at_xpath("title").try(:text),
-          body: xml_item.at_xpath("content:encoded").try(:text)
-        }
-      ]
-    }
-  end
+    def parse_single_news_from_xml(xml_item)
+      {
+        author: xml_item.xpath("creator").try(:text),
+        full_version: false,
+        news_type: "news",
+        publication_date: publication_date(xml_item),
+        published_at: publication_date(xml_item),
+        source_url: {
+          url: xml_item.at_xpath("link").try(:text),
+          description: "source url of original article"
+        },
+        contentBlocks: [
+          {
+            title: xml_item.at_xpath("title").try(:text),
+            body: parse_content(xml_item)
+          }
+        ]
+      }
+    end
 
-  def publication_date(xml_item)
-    xml_item.at_xpath("pubDate").try(:text)
-  end
+    def publication_date(xml_item)
+      xml_item.at_xpath("pubDate").try(:text)
+    end
+
+    def parse_content(xml_item)
+      content = xml_item.at_xpath("content:encoded") || xml_item.at_xpath("description")
+      return unless content.present?
+
+      content.try(:text)
+    end
 end
 
 # == Schema Information
