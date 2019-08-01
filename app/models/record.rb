@@ -37,7 +37,7 @@ class Record < ApplicationRecord
 
     def parse_single_news_from_xml(xml_item)
       {
-        author: xml_item.xpath("dc:creator").try(:text),
+        author: parse_author(xml_item),
         full_version: false,
         news_type: "news",
         publication_date: publication_date(xml_item),
@@ -64,6 +64,16 @@ class Record < ApplicationRecord
       return unless content.present?
 
       content.try(:text)
+    end
+
+    def parse_author(xml_item)
+      begin
+        author = xml_item.at_xpath("dc:creator")
+        return "" unless author.present?
+        author.try(:text)
+      rescue Nokogiri::XML::XPath::SyntaxError
+        ""
+      end
     end
 end
 
