@@ -27,6 +27,7 @@ class Importer
       @record.update(updated_at: Time.now, audit_comment: result.body)
     rescue => e
       @record.update(updated_at: Time.now, audit_comment: e)
+      Rails.logger.notify!(short_message: "API Request Error", full_message: e)
     end
   end
 end
