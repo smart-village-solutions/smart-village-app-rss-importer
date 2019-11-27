@@ -5,7 +5,7 @@
 
 # Example:
 #
-set :output, "/var/log/cron.log"
+# set :output, "/var/log/cron.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
