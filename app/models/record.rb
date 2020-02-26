@@ -26,6 +26,7 @@ class Record < ApplicationRecord
   def convert_rss_to_hash
     news_data = []
     @xml_doc = Nokogiri.XML(xml_data)
+    @xml_doc.remove_namespaces!
     @xml_doc.xpath("//item").each do |xml_item|
       news_data << parse_single_news_from_xml(xml_item)
     end
