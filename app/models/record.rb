@@ -57,9 +57,10 @@ class Record < ApplicationRecord
     end
 
     def publication_date(xml_item)
-      xml_item.at_xpath("pubDate").try(:text)
+      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text)
     end
 
+    def parse_content(xml_item)
     def parse_content(xml_item)
       content = xml_item.at_xpath("content:encoded") || xml_item.at_xpath("description")
       return unless content.present?
@@ -69,9 +70,7 @@ class Record < ApplicationRecord
 
     def parse_author(xml_item)
       begin
-        author = xml_item.at_xpath("dc:creator")
-        return "" unless author.present?
-        author.try(:text)
+        xml_item.at_xpath("creator").try(:text).presence || xml_item.at_xpath("owner").try(:text)
       rescue Nokogiri::XML::XPath::SyntaxError
         ""
       end
