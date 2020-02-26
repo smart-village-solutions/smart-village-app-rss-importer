@@ -61,7 +61,6 @@ class Record < ApplicationRecord
     end
 
     def parse_content(xml_item)
-    def parse_content(xml_item)
       content = xml_item.at_xpath("content:encoded") || xml_item.at_xpath("description")
       return unless content.present?
 
