@@ -61,10 +61,9 @@ class Record < ApplicationRecord
     end
 
     def parse_content(xml_item)
-      content = xml_item.at_xpath("content:encoded") || xml_item.at_xpath("description")
-      return unless content.present?
-
-      content.try(:text)
+      xml_item.at_xpath("content").try(:text).presence ||
+        xml_item.at_xpath("encoded").try(:text).presence ||
+        xml_item.at_xpath("description").try(:text)
     end
 
     def parse_author(xml_item)
