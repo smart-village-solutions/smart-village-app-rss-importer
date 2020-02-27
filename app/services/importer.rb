@@ -11,7 +11,7 @@ class Importer
   def initialize(feed: nil)
     @feed = feed
 
-    @record = Record.new(source_url: @feed[:url])
+    @record = Record.new(source_url: @feed[:url], feed: @feed)
     @record.load_rss_data
     @record.convert_rss_to_hash
     send_json_to_server

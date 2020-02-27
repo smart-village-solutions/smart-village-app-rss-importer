@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Record < ApplicationRecord
-  attr_accessor :source_url
+  attr_accessor :source_url, :feed
 
   audited only: :updated_at
 
-  def initialize(source_url: nil)
+  def initialize(source_url: nil, feed: nil)
     @source_url = source_url
+    @feed = feed
     super
   end
 
@@ -50,7 +51,8 @@ class Record < ApplicationRecord
         contentBlocks: [
           {
             title: xml_item.at_xpath("title").try(:text),
-            body: parse_content(xml_item)
+            intro: parse_content_intro(xml_item),
+            body: parse_content_body(xml_item)
           }
         ]
       }
@@ -60,10 +62,24 @@ class Record < ApplicationRecord
       xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text)
     end
 
-    def parse_content(xml_item)
-      xml_item.at_xpath("content").try(:text).presence ||
-        xml_item.at_xpath("encoded").try(:text).presence ||
-        xml_item.at_xpath("description").try(:text)
+    # Content ist meinst in folgenden Stellen im RSS,
+    # wird nun aber dynamisch in den Settings pro Feed definiert
+    #
+    # xml_item.at_xpath("content").try(:text).presence ||
+    # xml_item.at_xpath("encoded").try(:text).presence ||
+    # xml_item.at_xpath("description").try(:text)
+    def parse_content_intro(xml_item)
+      return nil if feed[:import][:intro] == false
+      return nil if feed[:import][:intro].blank?
+
+      xml_item.at_xpath(feed[:import][:intro]).try(:text)
+    end
+
+    def parse_content_body(xml_item)
+      return nil if feed[:import][:body] == false
+      return nil if feed[:import][:body].blank?
+
+      xml_item.at_xpath(feed[:import][:body]).try(:text)
     end
 
     def parse_author(xml_item)
