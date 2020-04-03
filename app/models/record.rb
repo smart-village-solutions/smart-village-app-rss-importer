@@ -39,6 +39,7 @@ class Record < ApplicationRecord
 
     def parse_single_news_from_xml(xml_item)
       {
+        external_id: parse_content_external_id(xml_item),
         author: parse_author(xml_item),
         full_version: false,
         news_type: "news",
@@ -80,6 +81,13 @@ class Record < ApplicationRecord
       return nil if feed[:import][:body].blank?
 
       xml_item.at_xpath(feed[:import][:body]).try(:text)
+    end
+
+    def parse_content_external_id(xml_item)
+      return nil if feed[:import][:external_id] == false
+      return nil if feed[:import][:external_id].blank?
+
+      xml_item.at_xpath(feed[:import][:external_id]).try(:text)
     end
 
     def parse_author(xml_item)
