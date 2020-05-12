@@ -51,12 +51,35 @@ class Record < ApplicationRecord
         },
         contentBlocks: [
           {
-            title: xml_item.at_xpath("title").try(:text),
+            title: parse_content_title(xml_item),
             intro: parse_content_intro(xml_item),
-            body: parse_content_body(xml_item)
+            body: parse_content_body(xml_item),
+            media_contents: media_contents(xml_item)
           }
         ]
       }
+    end
+
+    def media_contents(xml_item)
+      return [] if feed[:import][:images] == false
+      return [] if feed[:import][:images].blank?
+
+      media = []
+      xml_item.xpath(feed[:import][:images][:image_tag]).each do |image_item|
+        image_data = {
+          content_type: "image",
+          copyright: image_item.at_xpath(feed[:import][:images][:copyright]).try(:text),
+          caption_text: image_item.at_xpath(feed[:import][:images][:caption_text]).try(:text),
+          width: image_item.at_xpath(feed[:import][:images][:width]).try(:text).to_i,
+          height: image_item.at_xpath(feed[:import][:images][:height]).try(:text).to_i,
+          source_url: {
+            url: image_item.at_xpath(feed[:import][:images][:source_url]).try(:text)
+          }
+        }
+        media << image_data
+      end
+
+      media.compact.flatten
     end
 
     def publication_date(xml_item)
@@ -88,6 +111,12 @@ class Record < ApplicationRecord
       return nil if feed[:import][:external_id].blank?
 
       xml_item.at_xpath(feed[:import][:external_id]).try(:text)
+    end
+
+    def parse_content_title(xml_item)
+      return xml_item.at_xpath("title").try(:text) if feed[:import][:title].blank?
+
+      xml_item.at_xpath(feed[:import][:title]).try(:text)
     end
 
     def parse_author(xml_item)
