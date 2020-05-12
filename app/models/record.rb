@@ -51,12 +51,35 @@ class Record < ApplicationRecord
         },
         contentBlocks: [
           {
-            title: xml_item.at_xpath("title").try(:text),
+            title: parse_content_title(xml_item),
             intro: parse_content_intro(xml_item),
-            body: parse_content_body(xml_item)
+            body: parse_content_body(xml_item),
+            media_contents: media_contents(xml_item)
           }
         ]
       }
+    end
+
+    def media_contents(xml_item)
+      return [] if feed[:import][:images].blank?
+      return [] if feed[:import][:images] == false
+
+      media = []
+      xml_item.xpath(feed[:import][:images][:image_tag]).each do |image_item|
+        image_data = {
+          content_type: "image",
+          copyright: image_item.at_xpath(feed[:import][:images][:copyright]).try(:text),
+          caption_text: image_item.at_xpath(feed[:import][:images][:caption_text]).try(:text),
+          width: image_item.at_xpath(feed[:import][:images][:width]).try(:text).to_i,
+          height: image_item.at_xpath(feed[:import][:images][:height]).try(:text).to_i,
+          source_url: {
+            url: image_item.at_xpath(feed[:import][:images][:source_url]).try(:text)
+          }
+        }
+        media << image_data
+      end
+
+      media.compact.flatten
     end
 
     def publication_date(xml_item)
@@ -70,24 +93,30 @@ class Record < ApplicationRecord
     # xml_item.at_xpath("encoded").try(:text).presence ||
     # xml_item.at_xpath("description").try(:text)
     def parse_content_intro(xml_item)
-      return nil if feed[:import][:intro] == false
       return nil if feed[:import][:intro].blank?
+      return nil if feed[:import][:intro] == false
 
       xml_item.at_xpath(feed[:import][:intro]).try(:text)
     end
 
     def parse_content_body(xml_item)
-      return nil if feed[:import][:body] == false
       return nil if feed[:import][:body].blank?
+      return nil if feed[:import][:body] == false
 
       xml_item.at_xpath(feed[:import][:body]).try(:text)
     end
 
     def parse_content_external_id(xml_item)
-      return nil if feed[:import][:external_id] == false
       return nil if feed[:import][:external_id].blank?
+      return nil if feed[:import][:external_id] == false
 
       xml_item.at_xpath(feed[:import][:external_id]).try(:text)
+    end
+
+    def parse_content_title(xml_item)
+      return xml_item.at_xpath("title").try(:text) if feed[:import][:title].blank?
+
+      xml_item.at_xpath(feed[:import][:title]).try(:text)
     end
 
     def parse_author(xml_item)
