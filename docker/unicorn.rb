@@ -1,5 +1,5 @@
 app_dir = "/app"
-worker_processes 10
+worker_processes 5
 working_directory app_dir
 
 # Load app into the master before forking workers for super-fast
