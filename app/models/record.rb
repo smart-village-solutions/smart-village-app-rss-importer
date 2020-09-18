@@ -86,7 +86,7 @@ class Record < ApplicationRecord
     end
 
     def publication_date(xml_item)
-      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text)
+      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text) || xml_item.at_xpath("published").try(:text)
     end
 
     # Content ist meinst in folgenden Stellen im RSS,
@@ -133,7 +133,7 @@ class Record < ApplicationRecord
 
     def parse_author(xml_item)
       begin
-        xml_item.at_xpath("creator").try(:text).presence || xml_item.at_xpath("owner").try(:text)
+        xml_item.at_xpath("creator").try(:text).presence || xml_item.at_xpath("owner").try(:text) || xml_item.at_xpath("author/name").try(:text)
       rescue Nokogiri::XML::XPath::SyntaxError
         ""
       end
