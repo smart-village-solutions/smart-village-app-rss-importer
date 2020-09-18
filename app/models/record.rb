@@ -28,7 +28,8 @@ class Record < ApplicationRecord
     news_data = []
     @xml_doc = Nokogiri.XML(xml_data)
     @xml_doc.remove_namespaces!
-    @xml_doc.xpath("//item").each do |xml_item|
+    feed_item_path = feed.fetch(:feed_item_path, nil).presence || "//item"
+    @xml_doc.xpath(feed_item_path).each do |xml_item|
       news_data << parse_single_news_from_xml(xml_item)
     end
 
