@@ -42,7 +42,7 @@ class Record < ApplicationRecord
         publication_date: publication_date(xml_item),
         published_at: publication_date(xml_item),
         source_url: {
-          url: xml_item.at_xpath("link").try(:text),
+          url: xml_item.at_xpath("link").try(:text).presence || xml_item.at_xpath("link").attributes.fetch("href", nil).try(:text),
           description: "source url of original article"
         },
         contentBlocks: [
