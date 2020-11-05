@@ -28,7 +28,6 @@ class Importer
     rescue => e
       @record.update(updated_at: Time.now, audit_comment: e)
       Rollbar.error("API Request Error.", full_message: e)
-      Rails.logger.notify!(short_message: "API Request Error", full_message: e)
     end
   end
 end
