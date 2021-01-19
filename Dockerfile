@@ -1,4 +1,4 @@
-FROM registry.gitlab.tpwd.de/cmmc-systems/ruby-nginx/ruby-2.7.1
+FROM registry.gitlab.tpwd.de/cmmc-systems/ruby-nginx/ruby-3.0.0
 
 RUN apk add dcron
 
