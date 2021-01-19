@@ -1,4 +1,4 @@
-FROM registry.gitlab.tpwd.de/cmmc-systems/ruby-nginx/ruby-3.0.0
+FROM registry.gitlab.tpwd.de/cmmc-systems/ruby-nginx/ruby-2.7.1
 
 RUN apk add dcron
 
@@ -11,7 +11,7 @@ COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY . .
 
-RUN bundle install --without development test
+RUN bundle install
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
 
