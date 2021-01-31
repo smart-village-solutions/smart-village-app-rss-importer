@@ -19,10 +19,10 @@ class Record < ApplicationRecord
   end
 
   def convert_rss_to_hash(feed)
-    return convert_rss_to_news_hash if feed[:data_type].blank?
-    return convert_rss_to_news_hash if feed[:data_type] == "news"
+    return convert_rss_to_news_hash(feed) if feed[:data_type].blank?
+    return convert_rss_to_news_hash(feed) if feed[:data_type] == "news"
 
-    convert_rss_to_events_hash if feed[:data_type] == "events"
+    convert_rss_to_events_hash(feed) if feed[:data_type] == "events"
   end
 
   def convert_rss_to_news_hash(feed)
@@ -85,7 +85,7 @@ class Record < ApplicationRecord
         dates: [
           {
             date_start: publication_date(xml_item),
-            time_description: xml_item.at_xpath("encoded").try(:text),
+            time_description: xml_item.at_xpath("encoded").try(:text).to_s[0,254],
             use_only_time_description: false
           }
         ],
