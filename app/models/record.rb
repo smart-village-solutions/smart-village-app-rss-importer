@@ -3,15 +3,9 @@
 class Record < ApplicationRecord
   attr_accessor :source_url, :feed
 
-  audited only: :updated_at
-
-  def initialize(source_url: nil, feed: nil)
-    @source_url = source_url
+  def load_rss_data(feed)
     @feed = feed
-    super
-  end
-
-  def load_rss_data
+    source_url = feed[:url]
     result = ApiRequestService.new(source_url).get_request(false)
 
     return unless result.code == "200"
@@ -24,7 +18,8 @@ class Record < ApplicationRecord
     hash_data.to_json
   end
 
-  def convert_rss_to_hash
+  def convert_rss_to_hash(feed)
+    @feed = feed
     news_data = []
     @xml_doc = Nokogiri.XML(xml_data)
     @xml_doc.remove_namespaces!

@@ -1,55 +1,22 @@
 version: '3.7'
 
 services:
-  app:
-    image: registry.communicatio.com/ikusei/smart-village-app-rss-importer
-    depends_on: [db]
-    environment:
-      RAILS_ENV: production
-      RAILS_LOG_TO_STDOUT: 1
-    configs:
-      - source: smart-village-app-rss-importer-database-yml
-        target: /app/config/database.yml
-      - source: smart-village-app-rss-importer-unicorn-rb
-        target: /app/config/unicorn.rb
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - unicorn:/unicorn
-      - assets:/assets
-      - settings:/app/config/settings
-    deploy:
-      restart_policy:
-        condition: on-failure
-
-  nginx:
-    image: nginx
-    depends_on: [app]
-    networks: [default, public]
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - unicorn:/unicorn
-      - assets:/public
-    labels:
-      - traefik.docker.network=public
-    deploy:
-      restart_policy:
-        condition: on-failure
-
   db:
-    image: postgres
+    image: 'postgres:10.3-alpine'
     environment:
       POSTGRES_USER: smart
       POSTGRES_PASSWORT: smart
       POSTGRES_DB: smart
+    networks:
+      public:
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - db:/var/lib/postgresql/data
     deploy:
       restart_policy:
         condition: on-failure
 
   cron:
-    image: registry.communicatio.com/ikusei/smart-village-app-rss-importer
+    image: registry.gitlab.tpwd.de/ikusei/smart-village-app-rss-importer
     environment:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: 1
@@ -57,8 +24,12 @@ services:
     command: bin/start-cron.sh
     depends_on: [db]
     configs:
-      - source: smart-village-app-rss-importer-database-yml
+      - source: smart-village-app-rss-importer-bb-FOOBAR-database-yml
         target: /app/config/database.yml
+      - source: mainserver-common-master-key
+        target: /app/config/master.key
+      - source: mainserver-common-master-key
+        target: /app/config/credentials/production.key
     volumes:
       - settings:/app/config/settings
 
@@ -69,11 +40,11 @@ volumes:
   settings:
 
 configs:
-  smart-village-app-rss-importer-nginx-conf:
+  smart-village-app-rss-importer-bb-FOOBAR-database-yml:
     external: true
-  smart-village-app-rss-importer-database-yml:
+  unicorn-5-worker:
     external: true
-  smart-village-app-rss-importer-unicorn-rb:
+  mainserver-common-master-key:
     external: true
 
 networks:
