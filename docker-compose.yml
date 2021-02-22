@@ -21,7 +21,7 @@ services:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: 1
     entrypoint: sh
-    command: bin/start-cron.sh
+    command: /bin/sh -c "rails runner 'RssFeeds.import'"
     depends_on: [db]
     configs:
       - source: smart-village-app-rss-importer-bb-FOOBAR-database-yml
