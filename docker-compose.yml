@@ -1,42 +1,6 @@
 version: '3.7'
 
 services:
-  # app:
-  #   image: registry.gitlab.tpwd.de/ikusei/smart-village-app-rss-importer/bb-frankfurt-rss_importer
-  #   depends_on: [db]
-  #   environment:
-  #     RAILS_ENV: production
-  #     RAILS_LOG_TO_STDOUT: 1
-  #   configs:
-  #     - source: smart-village-app-rss-importer-bb-frankfurt-database-yml
-  #       target: /app/config/database.yml
-  #     - source: unicorn-5-worker
-  #       target: /app/config/unicorn.rb
-  #     - source: mainserver-common-master-key
-  #       target: /app/config/master.key
-  #     - source: mainserver-common-master-key
-  #       target: /app/config/credentials/production.key
-  #   volumes:
-  #     - unicorn:/unicorn
-  #     - assets:/assets
-  #     - settings:/app/config/settings
-  #   deploy:
-  #     restart_policy:
-  #       condition: on-failure
-
-  # nginx:
-  #   image: nginx
-  #   depends_on: [app]
-  #   networks: [default, public]
-  #   volumes:
-  #     - unicorn:/unicorn
-  #     - assets:/public
-  #   labels:
-  #     - traefik.docker.network=public
-  #   deploy:
-  #     restart_policy:
-  #       condition: on-failure
-
   db:
     image: 'postgres:10.3-alpine'
     environment:
