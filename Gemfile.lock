@@ -125,7 +125,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.3)
@@ -243,6 +245,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    status-page (0.1.5)
+      rails (>= 4.2)
     thor (1.1.0)
     thread_safe (0.3.6)
     tzinfo (1.2.9)
@@ -275,6 +279,7 @@ DEPENDENCIES
   guard-rspec
   linter!
   listen (>= 3.0.5, < 3.2)
+  mimemagic (>= 0.3.6)
   nokogiri
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
@@ -287,6 +292,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
+  status-page
   tzinfo-data
   unicorn
   whenever
