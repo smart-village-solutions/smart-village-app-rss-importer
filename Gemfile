@@ -20,7 +20,6 @@ gem "rollbar"
 # gem "gelf"
 
 gem "mimemagic", ">= 0.3.6"
-gem "status-page"
 
 # Use Active Storage variant
 # gem "image_processing", "~> 1.2"
