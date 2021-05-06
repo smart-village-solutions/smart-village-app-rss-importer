@@ -69,13 +69,20 @@ class Record < ApplicationRecord
           width: image_item.at_xpath(feed[:import][:images][:width]).try(:text).to_i,
           height: image_item.at_xpath(feed[:import][:images][:height]).try(:text).to_i,
           source_url: {
-            url: image_item.at_xpath(feed[:import][:images][:source_url]).try(:text)
+            url: parse_image_url(image_item)
           }
         }
         media << image_data
       end
 
       media.compact.flatten
+    end
+
+    def parse_image_url(image_item)
+      return nil if feed[:import][:images][:source_url].blank?
+      return image_item[feed[:import][:images][:source_url]] if feed.dig(:import, :images, :source_url_as_attribute) == true
+
+      image_item.at_xpath(feed[:import][:images][:source_url]).try(:text)
     end
 
     def publication_date(xml_item)
