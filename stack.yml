@@ -3,24 +3,27 @@ version: '3.7'
 services:
   cron:
     image: registry.gitlab.tpwd.de/ikusei/smart-village-app-rss-importer/bb-frankfurt-rss_importer
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
     networks:
       - default
       - public
-      - logs
       - smart-village-app-bb-frankfurt-rss-importer
     environment:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: 1
     deploy:
       replicas: 1
+      placement:
+        constraints:
+          - node.hostname == node-002.sva
       restart_policy:
         condition: on-failure
 
   db:
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == node-002.sva
     networks:
       smart-village-app-bb-frankfurt-rss-importer:
         aliases:
@@ -33,8 +36,6 @@ networks:
   smart-village-app-bb-frankfurt-rss-importer:
     external: true
   adminer:
-    external: true
-  logs:
     external: true
   public:
     external: true
