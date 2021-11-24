@@ -2,11 +2,11 @@ version: '3.7'
 
 services:
   cron:
-    image: registry.gitlab.tpwd.de/ikusei/smart-village-app-rss-importer/bb-frankfurt-rss_importer
+    image: registry.gitlab.tpwd.de/ikusei/smart-village-app-rss-importer/bb-seelow-rss_importer
     networks:
       - default
       - public
-      - smart-village-app-bb-frankfurt-rss-importer
+      - smart-village-app-bb-seelow-rss-importer
     environment:
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: 1
@@ -25,15 +25,15 @@ services:
         constraints:
           - node.hostname == node-002.sva
     networks:
-      smart-village-app-bb-frankfurt-rss-importer:
+      smart-village-app-bb-seelow-rss-importer:
         aliases:
-          - smart-village-app-bb-frankfurt-rss-importer
+          - smart-village-app-bb-seelow-rss-importer
       adminer:
         aliases:
           - json-2-graphql-converter
 
 networks:
-  smart-village-app-bb-frankfurt-rss-importer:
+  smart-village-app-bb-seelow-rss-importer:
     external: true
   adminer:
     external: true
