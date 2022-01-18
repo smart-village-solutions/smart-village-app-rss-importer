@@ -133,7 +133,7 @@ class Record < ApplicationRecord
     end
 
     def remove_prefixed_date_in(text)
-      text.gsub(/^\d{1,2}.\d{1,2}.\d{2,4}:?\s*/, "")
+      text.gsub(/^\d{1,2}\.\d{1,2}\.\d{2,4}:?\s*/, "")
     end
 end
 
