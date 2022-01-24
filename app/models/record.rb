@@ -110,9 +110,18 @@ class Record < ApplicationRecord
     end
 
     def parse_content_title(xml_item)
-      return xml_item.at_xpath("title").try(:text) if feed[:import][:title].blank?
+      if feed[:import][:title].present?
+        title = xml_item.at_xpath(feed[:import][:title]).try(:text)
+      else
+        title = xml_item.at_xpath("title").try(:text)
+      end
 
-      xml_item.at_xpath(feed[:import][:title]).try(:text)
+      if feed[:remove_prefixed_date_in_title].present? &&
+         feed[:remove_prefixed_date_in_title] == true
+        return remove_prefixed_date_in(title)
+      end
+
+      title
     end
 
     def parse_author(xml_item)
@@ -121,6 +130,10 @@ class Record < ApplicationRecord
       rescue Nokogiri::XML::XPath::SyntaxError
         ""
       end
+    end
+
+    def remove_prefixed_date_in(text)
+      text.gsub(/^\d{1,2}\.\d{1,2}\.\d{2,4}:?\s*/, "")
     end
 end
 
