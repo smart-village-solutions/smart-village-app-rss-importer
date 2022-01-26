@@ -35,7 +35,7 @@ before_script:
   script:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   only:
-    - release/bb/eberswalde
+    - release/FOOBAR
 
 .deploy: &deploy
   stage: deploy
@@ -47,20 +47,20 @@ before_script:
     - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
   tags: [v2]
   only:
-    - release/bb/eberswalde
+    - release/FOOBAR
 
 build-app:
   variables:
-    IMAGE: $CI_REGISTRY_IMAGE/bb-eberswalde-rss_importer
+    IMAGE: $CI_REGISTRY_IMAGE/FOOBAR-rss_importer
     DOCKERFILE: Dockerfile
   <<: *docker-build
 
 app-conf:
   <<: *quantum-conf
   variables:
-    PROJECT: bb-eberswalde-rss_importer
+    PROJECT: FOOBAR-rss_importer
 
 deploy:
   <<: *deploy
   variables:
-    PROJECT: bb-eberswalde-rss_importer
+    PROJECT: FOOBAR-rss_importer

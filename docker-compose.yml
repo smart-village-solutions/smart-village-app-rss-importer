@@ -24,7 +24,7 @@ services:
     command: bin/start-cron.sh
     depends_on: [db]
     configs:
-      - source: smart-village-app-rss-importer-bb-eberswalde-database-yml
+      - source: smart-village-app-rss-importer-FOOBAR-database-yml
         target: /app/config/database.yml
       - source: mainserver-common-master-key
         target: /app/config/master.key
@@ -40,7 +40,7 @@ volumes:
   settings:
 
 configs:
-  smart-village-app-rss-importer-bb-eberswalde-database-yml:
+  smart-village-app-rss-importer-FOOBAR-database-yml:
     external: true
   unicorn-5-worker:
     external: true
