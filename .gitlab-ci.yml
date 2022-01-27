@@ -39,7 +39,7 @@ docker_build:
     key: "${CI_PIPELINE_ID}-${PROJECT}"
     paths: [quantum.yml]
   script:
-    - sed 's/$PROJECT/${PROJECT}/' < stack.yml.template > stack.yml
+    - sed "s/%PROJECT%/${PROJECT}/g" < stack.yml.template > stack.yml
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   tags: [v2]
   allow_failure: false

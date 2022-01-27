@@ -25,7 +25,7 @@ services:
         constraints:
           - node.hostname == ${NODENAME}
     networks:
-      smart-village-app-$PROJECT-rss-importer:
+      smart-village-app-%PROJECT%-rss-importer:
         aliases:
           - smart-village-app-${PROJECT}-rss-importer
       adminer:
@@ -33,7 +33,7 @@ services:
           - json-2-graphql-converter
 
 networks:
-  smart-village-app-$PROJECT-rss-importer:
+  smart-village-app-%PROJECT%-rss-importer:
     external: true
   adminer:
     external: true
