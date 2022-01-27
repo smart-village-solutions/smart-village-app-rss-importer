@@ -6,9 +6,8 @@ variables:
 
 stages:
   - build
-  - tag
-  - predeploy
-  - deploy
+  - build_release
+  - deploy_release
 
 services:
   - docker:19.03.0-dind
@@ -17,50 +16,96 @@ before_script:
   - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-.docker-build: &docker-build
+docker_build:
   stage: build
+  variables:
+    IMAGE: $CI_REGISTRY_IMAGE
+    DOCKERFILE: Dockerfile
+  allow_failure: false
   script:
     - docker pull $IMAGE:latest || true
     - docker build --cache-from $IMAGE:latest --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:latest -f $DOCKERFILE .
     - docker push $IMAGE:$CI_COMMIT_SHA
     - docker push $IMAGE:latest
+  only:
+    - releases
 
-.quantum-conf: &quantum-conf
-  stage: predeploy
+.docker_build_release:
+  stage: build_release
   image:
     name: docker/compose:1.25.0
+    entrypoint: ["/bin/sh", "-c"]
   cache:
     key: "${CI_PIPELINE_ID}-${PROJECT}"
     paths: [quantum.yml]
   script:
+    - sed 's/$PROJECT/${PROJECT}/' < stack.yml.template > stack.yml
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
+  tags: [v2]
+  allow_failure: false
+  when: on_success
   only:
-    - release/FOOBAR
+    - releases
 
-.deploy: &deploy
-  stage: deploy
+.deploy_release:
+  stage: deploy_release
+  needs: ["docker-build"]
   image: $QUANTUM_CLI
   cache:
     key: "${CI_PIPELINE_ID}-${PROJECT}"
     paths: [quantum.yml]
   script:
-    - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
+    - quantum-cli stack update --create --stack $PROJECT-json2graphql-$QUANTUM_ENDPOINT --wait
   tags: [v2]
+  allow_failure: false
+  when: on_success
   only:
-    - release/FOOBAR
+    - releases
 
-build-app:
-  variables:
-    IMAGE: $CI_REGISTRY_IMAGE/FOOBAR-rss_importer
-    DOCKERFILE: Dockerfile
-  <<: *docker-build
+# List of Releases:
+#
+# release/bb/eberswalde
+# release/bb/frankfurt
+# release/bb/seelow
 
-app-conf:
-  <<: *quantum-conf
+#
+# List of releases to build
+#
+bb-eberswalde-build:
+  extends: .docker_build_release
   variables:
-    PROJECT: FOOBAR-rss_importer
+    PROJECT: bb-eberswalde
+    NODENAME: node-002.sva
+bb-frankfurt-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-frankfurt
+    NODENAME: node-002.sva
+bb-seelow-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-seelow
+    NODENAME: node-002.sva
+    VOLUME_LOCALTIME: unused:/unused
 
-deploy:
-  <<: *deploy
+#
+# List of releases to deploy
+#
+bb-eberswalde-deploy:
+  extends: .deploy_release
+  needs: ["bb-eberswalde-build"]
   variables:
-    PROJECT: FOOBAR-rss_importer
+    PROJECT: bb-eberswalde
+    QUANTUM_ENDPOINT: sva
+bb-frankfurt-deploy:
+  extends: .deploy_release
+  needs: ["bb-frankfurt-build"]
+  variables:
+    PROJECT: bb-frankfurt
+    QUANTUM_ENDPOINT: portainer-14
+bb-seelow-deploy:
+  extends: .deploy_release
+  needs: ["bb-seelow-build"]
+  variables:
+    PROJECT: bb-seelow
+    QUANTUM_ENDPOINT: sva
