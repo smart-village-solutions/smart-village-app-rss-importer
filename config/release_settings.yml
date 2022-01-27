@@ -1,0 +1,23 @@
+bb_eberswalde:
+  oauth_server: "https://server.bb-eberswalde.smart-village.app"
+  oauth_callback: "https://rss-importer.bb-eberswalde.smart-village.app/oauth/confirm_access"
+  target_server: "https://json.bb-eberswalde.smart-village.app/api"
+  dashboard_project_id: "t79y544dnqlxhco985nhojayyk2a8ggx47ymqxvxp1294mhs"
+
+bb_frankfurt:
+  oauth_server: "https://server.bb-frankfurt.smart-village.app"
+  oauth_allback: "https://rss-importer.bb-frankfurt.smart-village.app/oauth/confirm_access"
+  target_server: "https://json.bb-frankfurt.smart-village.app/api"
+  dashboard_project_id: "oimlg8hxf990ufbvp159l3gklkmb7d8nhqy1h2acjuczzl4x"
+
+bb_seelow:
+  oauth_server: "https://server.bb-seelow.smart-village.app"
+  oauth_callback: "https://rss-importer.bb-seelow.smart-village.app/oauth/confirm_access"
+  target_server: "https://json.bb-seelow.smart-village.app/api"
+  dashboard_project_id: "hn5gja1vsbfaf7e9d5bzlknqjwqrfaer5sou0ti4ea5mk9j8"
+
+local_localhost:
+  oauth_server: "http://localhost:4000"
+  oauth_callback: "http://localhost:3000/oauth/confirm_access"
+  target_server: "http://localhost:5000/api"
+  dashboard_project_id: "randomrandomrandomrandomrandomrandomrandomrandom"
