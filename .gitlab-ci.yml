@@ -102,7 +102,7 @@ bb-frankfurt-deploy:
   needs: ["bb-frankfurt-build"]
   variables:
     PROJECT: bb-frankfurt
-    QUANTUM_ENDPOINT: portainer-14
+    QUANTUM_ENDPOINT: sva
 bb-seelow-deploy:
   extends: .deploy_release
   needs: ["bb-seelow-build"]
