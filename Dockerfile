@@ -8,6 +8,7 @@ WORKDIR /app
 
 # nginx default
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/database.yml /app/config/database.yml
 
 COPY . .
 RUN chmod +x /app/docker/entrypoint.sh
