@@ -55,7 +55,7 @@ docker_build:
     key: "${CI_PIPELINE_ID}-${PROJECT}"
     paths: [quantum.yml]
   script:
-    - quantum-cli stack update --create --stack $PROJECT-json2graphql-$QUANTUM_ENDPOINT --wait
+    - quantum-cli stack update --create --stack $PROJECT-rss_importer-$QUANTUM_ENDPOINT --wait
   tags: [v2]
   allow_failure: false
   when: on_success
