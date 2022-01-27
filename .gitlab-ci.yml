@@ -81,12 +81,16 @@ bb-frankfurt-build:
   variables:
     PROJECT: bb-frankfurt
     NODENAME: node-002.sva
+bb-schoenefeld-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-schoenefeld
+    NODENAME: node-002.sva
 bb-seelow-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-seelow
     NODENAME: node-002.sva
-    VOLUME_LOCALTIME: unused:/unused
 
 #
 # List of releases to deploy
@@ -102,6 +106,12 @@ bb-frankfurt-deploy:
   needs: ["bb-frankfurt-build"]
   variables:
     PROJECT: bb-frankfurt
+    QUANTUM_ENDPOINT: sva
+bb-schoenefeld-deploy:
+  extends: .deploy_release
+  needs: ["bb-schoenefeld-build"]
+  variables:
+    PROJECT: bb-schoenefeld
     QUANTUM_ENDPOINT: sva
 bb-seelow-deploy:
   extends: .deploy_release
