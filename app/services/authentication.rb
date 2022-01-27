@@ -7,12 +7,11 @@ class Authentication
   end
 
   def load_access_tokens
-    auth_server = Rails.application.credentials.auth_server[:url]
-    uri = Addressable::URI.parse("#{auth_server}/oauth/token")
+    uri = Addressable::URI.parse("#{ReleaseSettings.oauth_server}/oauth/token")
     uri.query_values = {
       client_id: @feed[:auth][:key],
       client_secret: @feed[:auth][:secret],
-      redirect_uri: Rails.application.credentials.auth_server[:callback_url],
+      redirect_uri: ReleaseSettings.oauth_callback,
       grant_type: "client_credentials"
     }
 
