@@ -20,6 +20,7 @@ services:
     environment:
       DB_HOST: smart-village-app-${PROJECT}-rss-importer
       RAILS_ENV: production
+      SVA_COMMUNITY: ${PROJECT}
       RAILS_LOG_TO_STDOUT: 1
     entrypoint: sh
     command: bin/start-cron.sh
