@@ -19,7 +19,7 @@ class Importer
 
   def send_json_to_server
     access_token = Authentication.new(feed: @feed).access_token
-    base_url = Rails.application.credentials.target_server[:url]
+    base_url = ReleaseSettings.target_server
     url = "#{base_url}/"
 
     begin
