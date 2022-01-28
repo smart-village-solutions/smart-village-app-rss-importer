@@ -64,9 +64,14 @@ docker_build:
 
 # List of Releases:
 #
-# release/bb/eberswalde
-# release/bb/frankfurt
-# release/bb/seelow
+# bb-eberswalde
+# bb-havelland
+# bb-hohen_neuendorf
+# bb-frankfurt
+# bb-ruedersdorf
+# bb-schoenefeld
+# bb-seelow
+#
 
 #
 # List of releases to build
@@ -80,6 +85,21 @@ bb-frankfurt-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-frankfurt
+    NODENAME: node-002.sva
+bb-havelland-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-havelland
+    NODENAME: node-002.sva
+bb-hohen-neuendorf-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-hohen-neuendorf
+    NODENAME: node-002.sva
+bb-ruedersdorf-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-ruedersdorf
     NODENAME: node-002.sva
 bb-schoenefeld-build:
   extends: .docker_build_release
@@ -106,6 +126,24 @@ bb-frankfurt-deploy:
   needs: ["bb-frankfurt-build"]
   variables:
     PROJECT: bb-frankfurt
+    QUANTUM_ENDPOINT: sva
+bb-havelland-deploy:
+  extends: .deploy_release
+  needs: ["bb-havelland-build"]
+  variables:
+    PROJECT: bb-havelland
+    QUANTUM_ENDPOINT: sva
+bb-hohen-neuendorf-deploy:
+  extends: .deploy_release
+  needs: ["bb-hohen-neuendorf-build"]
+  variables:
+    PROJECT: bb-hohen-neuendorf
+    QUANTUM_ENDPOINT: sva
+bb-ruedersdorf-deploy:
+  extends: .deploy_release
+  needs: ["bb-ruedersdorf-build"]
+  variables:
+    PROJECT: bb-ruedersdorf
     QUANTUM_ENDPOINT: sva
 bb-schoenefeld-deploy:
   extends: .deploy_release
