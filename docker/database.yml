@@ -17,4 +17,4 @@ test:
 production:
   <<: *default
   database: smart
-  host: <%= ENV['DATABASE_HOST'] %>
+  host: <%= ENV['DB_HOST'] %>
