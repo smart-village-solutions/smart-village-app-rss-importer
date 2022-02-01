@@ -24,6 +24,7 @@ class Importer
 
     begin
       result = ApiRequestService.new(url, nil, nil, @record.json_data, {Authorization: "Bearer #{access_token}"}).post_request
+      CronjobService::Notifier.push(ReleaseSettings.dashboard_project_id, @feed[:name], url: @feed[:url], result: result)
     rescue => e
       Rollbar.error("API Request Error.", full_message: e)
     end
