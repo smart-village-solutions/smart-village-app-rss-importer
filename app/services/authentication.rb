@@ -21,7 +21,8 @@ class Authentication
       data = JSON.parse(result.body)
       save_tokens(data)
     else
-      result.body
+      Rails.logger.error "Failed to fetch access token for feed '#{@feed["name"]}'."
+      Rails.logger.error "Got a #{result.code}, body: #{result.body}"
     end
   end
 
