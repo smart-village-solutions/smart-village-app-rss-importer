@@ -4,11 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.0.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 6.0.0.rc1"
+gem "rails", "~> 6.0.4.6"
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
-gem "puma", "~> 3.11"
+gem "puma", "~> 4.3", ">= 4.3.11"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem "jbuilder", "~> 2.5"
 # Use Redis adapter to run Action Cable in production
@@ -53,13 +53,13 @@ group :development do
   gem "spring"
   gem "codeclimate-test-reporter"
   gem "database_cleaner"
-  gem "factory_bot_rails"
+  gem "factory_bot_rails", ">= 6.1.0"
   gem "factory_bot"
   gem "guard-rspec"
   gem "guard"
   gem "linter", git: "https://github.com/ikuseiGmbH/linters.git", tag: "rubocop-0.63.1"
-  gem "rails-controller-testing"
-  gem "rspec-rails"
+  gem "rails-controller-testing", ">= 1.0.5"
+  gem "rspec-rails", ">= 4.0.2"
   gem "shoulda-matchers"
   gem "simplecov"
 end
