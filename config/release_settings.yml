@@ -44,7 +44,7 @@ bb_uckermark:
   oauth_server: "https://server.bb-uckermark.smart-village.app"
   oauth_callback: "https://rss-importer.bb-uckermark.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-uckermark.smart-village.app/api"
-  dashboard_project_id: "eruvz76rx8h3hogs5ogc6jgl9bvtzun789pioj4iocapetd4"
+  dashboard_project_id: "n5ck8fphaw4c2ddyoz1oswvtmmtyfcg01e8xtb3ftbjf6b6u"
 
 local_localhost:
   oauth_server: "http://localhost:4000"
