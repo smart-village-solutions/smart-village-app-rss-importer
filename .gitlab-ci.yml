@@ -71,6 +71,7 @@ docker_build:
 # bb-ruedersdorf
 # bb-schoenefeld
 # bb-seelow
+# bb-uckermark
 #
 
 #
@@ -110,6 +111,11 @@ bb-seelow-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-seelow
+    NODENAME: node-002.sva
+bb-uckermark-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-uckermark
     NODENAME: node-002.sva
 
 #
@@ -157,3 +163,8 @@ bb-seelow-deploy:
   variables:
     PROJECT: bb-seelow
     QUANTUM_ENDPOINT: sva
+bb-uckermark-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-uckermark
+    NODENAME: node-002.sva

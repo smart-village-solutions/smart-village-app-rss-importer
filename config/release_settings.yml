@@ -40,6 +40,12 @@ bb_schoenefeld:
   target_server: "https://json.bb-schoenefeld.smart-village.app/api"
   dashboard_project_id: "eruvz76rx8h3hogs5ogc6jgl9bvtzun789pioj4iocapetd4"
 
+bb_uckermark:
+  oauth_server: "https://server.bb-uckermark.smart-village.app"
+  oauth_callback: "https://rss-importer.bb-uckermark.smart-village.app/oauth/confirm_access"
+  target_server: "https://json.bb-uckermark.smart-village.app/api"
+  dashboard_project_id: "eruvz76rx8h3hogs5ogc6jgl9bvtzun789pioj4iocapetd4"
+
 local_localhost:
   oauth_server: "http://localhost:4000"
   oauth_callback: "http://localhost:3000/oauth/confirm_access"
