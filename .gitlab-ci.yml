@@ -163,8 +163,9 @@ bb-seelow-deploy:
   variables:
     PROJECT: bb-seelow
     QUANTUM_ENDPOINT: sva
-bb-uckermark-build:
-  extends: .docker_build_release
+bb-uckermark-deploy:
+  extends: .deploy_release
+  needs: ["bb-uckermark-build"]
   variables:
     PROJECT: bb-uckermark
-    NODENAME: node-002.sva
+    QUANTUM_ENDPOINT: sva
