@@ -47,7 +47,7 @@ bb_uckermark:
   dashboard_project_id: "n5ck8fphaw4c2ddyoz1oswvtmmtyfcg01e8xtb3ftbjf6b6u"
 
 local_localhost:
-  oauth_server: "http://localhost:4000"
-  oauth_callback: "http://localhost:3000/oauth/confirm_access"
-  target_server: "http://localhost:5000/api"
-  dashboard_project_id: "randomrandomrandomrandomrandomrandomrandomrandom"
+  oauth_server: "https://server.int-development.smart-village.app/"
+  oauth_callback: "https://server.int-development.smart-village.app/oauth/confirm_access"
+  target_server: "https://json.int-development.smart-village.app/api"
+  dashboard_project_id: "443r7abv5l25g6okfi9hojtet03fkr8d1hkj4bkbwph87if6"
