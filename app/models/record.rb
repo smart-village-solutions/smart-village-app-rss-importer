@@ -24,8 +24,22 @@ class Record < ApplicationRecord
     @xml_doc = Nokogiri.XML(xml_data)
     @xml_doc.remove_namespaces!
     feed_item_path = feed.fetch(:feed_item_path, nil).presence || "//item"
+
+    # Fetch keyword search json to put NewsItems in different categories
+    # base on a keyword that has to match, example:
+    #
+    # "keyword_search": {
+    #   "keyword": "Herzberg",
+    #   "category_when_match_found": "Nachrichten",
+    #   "category_when_no_match_found": "Nachrichten (unwichtig)"
+    # }
+    @keyword_search = feed.fetch(:keyword_search)
+
     @xml_doc.xpath(feed_item_path).each do |xml_item|
-      news_data << parse_single_news_from_xml(xml_item)
+      json_data = parse_single_news_from_xml(xml_item)
+      json_data = set_category_for_keyword_search(json_data) if @keyword_search.present?
+
+      news_data << json_data
     end
 
     self.json_data = { news: news_data }
@@ -54,6 +68,19 @@ class Record < ApplicationRecord
           }
         ]
       }
+    end
+
+    def set_category_for_keyword_search(json_data)
+      # Search title, intro & body for the keyford specified
+      match = [:title, :intro, :body].reduce(false) do |memo, content_part|
+        memo || json_data[:contentBlocks][0][content_part].try(:include?, @keyword_search["keyword"])
+      end
+      category_type = match ? "category_when_match_found" : "category_when_no_match_found"
+
+      # Merge category name into json_data
+      json_data.merge(
+        categories: [{ name: @keyword_search[category_type] }]
+      )
     end
 
     def media_contents(xml_item)
