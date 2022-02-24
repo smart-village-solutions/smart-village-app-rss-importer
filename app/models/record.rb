@@ -85,6 +85,7 @@ class Record < ApplicationRecord
         dates: [
           {
             date_start: publication_date(xml_item),
+            time_start: publication_date(xml_item),
             time_description: xml_item.at_xpath("encoded").try(:text).to_s[0,254],
             use_only_time_description: false
           }
@@ -129,7 +130,11 @@ class Record < ApplicationRecord
     end
 
     def publication_date(xml_item)
-      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text) || xml_item.at_xpath("published").try(:text)
+      if feed[:import][:date].present?
+        DateTime.parse(xml_item.at_xpath(feed[:import][:date]).try(:text))
+      else
+        xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text) || xml_item.at_xpath("published").try(:text)
+      end
     end
 
     # Content ist meinst in folgenden Stellen im RSS,
