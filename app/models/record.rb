@@ -19,6 +19,13 @@ class Record < ApplicationRecord
   end
 
   def convert_rss_to_hash(feed)
+    return convert_rss_to_news_hash(feed) if feed[:data_type].blank?
+    return convert_rss_to_news_hash(feed) if feed[:data_type] == "news"
+
+    convert_rss_to_events_hash(feed) if feed[:data_type] == "events"
+  end
+
+  def convert_rss_to_news_hash(feed)
     @feed = feed
     news_data = []
     @xml_doc = Nokogiri.XML(xml_data)
@@ -29,6 +36,19 @@ class Record < ApplicationRecord
     end
 
     self.json_data = { news: news_data }
+  end
+
+  def convert_rss_to_events_hash(feed)
+    @feed = feed
+    news_data = []
+    @xml_doc = Nokogiri.XML(xml_data)
+    @xml_doc.remove_namespaces!
+    feed_item_path = feed.fetch(:feed_item_path, nil).presence || "//item"
+    @xml_doc.xpath(feed_item_path).each do |xml_item|
+      news_data << parse_single_event_from_xml(xml_item)
+    end
+
+    self.json_data = { events: news_data }
   end
 
   private
@@ -42,7 +62,7 @@ class Record < ApplicationRecord
         publication_date: publication_date(xml_item),
         published_at: publication_date(xml_item),
         source_url: {
-          url: xml_item.at_xpath("link").try(:text),
+          url: xml_item.at_xpath("link").try(:text).presence || xml_item.at_xpath("link").attributes.fetch("href", nil).try(:text),
           description: "source url of original article"
         },
         contentBlocks: [
@@ -53,6 +73,29 @@ class Record < ApplicationRecord
             media_contents: media_contents(xml_item)
           }
         ]
+      }
+    end
+
+    def parse_single_event_from_xml(xml_item)
+      {
+        title: parse_content_title(xml_item),
+        external_id: parse_content_external_id(xml_item),
+        description: parse_content_body(xml_item),
+        category_name: xml_item.at_xpath("category").try(:text),
+        dates: [
+          {
+            date_start: publication_date(xml_item),
+            time_description: xml_item.at_xpath("encoded").try(:text).to_s[0,254],
+            use_only_time_description: false
+          }
+        ],
+        urls: [
+          {
+            url: xml_item.at_xpath("link").try(:text),
+            description: "Details"
+          }
+        ],
+        media_contents: media_contents(xml_item)
       }
     end
 
@@ -86,7 +129,7 @@ class Record < ApplicationRecord
     end
 
     def publication_date(xml_item)
-      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text)
+      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text) || xml_item.at_xpath("published").try(:text)
     end
 
     # Content ist meinst in folgenden Stellen im RSS,
@@ -133,7 +176,7 @@ class Record < ApplicationRecord
 
     def parse_author(xml_item)
       begin
-        xml_item.at_xpath("creator").try(:text).presence || xml_item.at_xpath("owner").try(:text)
+        xml_item.at_xpath("creator").try(:text).presence || xml_item.at_xpath("owner").try(:text) || xml_item.at_xpath("author/name").try(:text)
       rescue Nokogiri::XML::XPath::SyntaxError
         ""
       end
