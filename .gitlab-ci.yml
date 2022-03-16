@@ -82,6 +82,11 @@ bb-amt-schlieben-build:
   variables:
     PROJECT: bb-amt-schlieben
     NODENAME: node-002.sva
+bb-bad-belzig-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-bad-belzig
+    NODENAME: node-002.sva
 bb-eberswalde-build:
   extends: .docker_build_release
   variables:
@@ -131,6 +136,12 @@ bb-amt-schlieben-deploy:
   needs: ["bb-amt-schlieben-build"]
   variables:
     PROJECT: bb-amt-schlieben
+    QUANTUM_ENDPOINT: sva
+bb-bad-belzig-deploy:
+  extends: .deploy_release
+  needs: ["bb-bad-belzig-build"]
+  variables:
+    PROJECT: bb-bad-belzig
     QUANTUM_ENDPOINT: sva
 bb-eberswalde-deploy:
   extends: .deploy_release
