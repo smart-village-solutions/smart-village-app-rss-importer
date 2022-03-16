@@ -137,6 +137,11 @@ bb-kyritz-build:
   variables:
     PROJECT: bb-kyritz
     NODENAME: node-002.sva
+bb-michendorf-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-michendorf
+    NODENAME: node-002.sva
 bb-ruedersdorf-build:
   extends: .docker_build_release
   variables:
@@ -232,6 +237,12 @@ bb-kyritz-deploy:
   needs: ["bb-kyritz-build"]
   variables:
     PROJECT: bb-kyritz
+    QUANTUM_ENDPOINT: sva
+bb-michendorf-deploy:
+  extends: .deploy_release
+  needs: ["bb-michendorf-build"]
+  variables:
+    PROJECT: bb-michendorf
     QUANTUM_ENDPOINT: sva
 bb-ruedersdorf-deploy:
   extends: .deploy_release

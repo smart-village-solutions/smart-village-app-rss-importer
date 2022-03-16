@@ -58,6 +58,11 @@ bb_kyritz:
   target_server: "https://json.bb-kyritz.smart-village.app/api"
   dashboard_project_id: "oexdkmzdc0ia8b9syh0702sdf9nksp81v44lhekplc1l77u5"
 
+bb_michendorf:
+  oauth_server: "https://server.bb-michendorf.smart-village.app"
+  target_server: "https://json.bb-michendorf.smart-village.app/api"
+  dashboard_project_id: "6yjbel81nq63x5rmrif5d4zcu6nx9zqna51ufr1i1tcp1ovf"
+
 bb_ruedersdorf:
   oauth_server: "https://server.bb-ruedersdorf.smart-village.app"
   target_server: "https://json.bb-ruedersdorf.smart-village.app/api"
