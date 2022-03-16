@@ -33,6 +33,11 @@ bb_frankfurt:
   target_server: "https://json.bb-frankfurt.smart-village.app/api"
   dashboard_project_id: "oimlg8hxf990ufbvp159l3gklkmb7d8nhqy1h2acjuczzl4x"
 
+bb_gransee:
+  oauth_server: "https://server.bb-gransee.smart-village.app"
+  target_server: "https://json.bb-gransee.smart-village.app/api"
+  dashboard_project_id: "xb57arpqzw8gcbssl9khs1jdptnfiq9m0rusqlrki7akup6e"
+
 bb_havelland:
   oauth_server: "https://server.bb-havelland.smart-village.app"
   target_server: "https://json.bb-havelland.smart-village.app/api"

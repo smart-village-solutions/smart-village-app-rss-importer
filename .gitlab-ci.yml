@@ -112,6 +112,11 @@ bb-frankfurt-build:
   variables:
     PROJECT: bb-frankfurt
     NODENAME: node-002.sva
+bb-gransee-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-gransee
+    NODENAME: node-002.sva
 bb-havelland-build:
   extends: .docker_build_release
   variables:
@@ -192,6 +197,12 @@ bb-frankfurt-deploy:
   needs: ["bb-frankfurt-build"]
   variables:
     PROJECT: bb-frankfurt
+    QUANTUM_ENDPOINT: sva
+bb-gransee-deploy:
+  extends: .deploy_release
+  needs: ["bb-gransee-build"]
+  variables:
+    PROJECT: bb-gransee
     QUANTUM_ENDPOINT: sva
 bb-havelland-deploy:
   extends: .deploy_release
