@@ -87,6 +87,11 @@ bb-bad-belzig-build:
   variables:
     PROJECT: bb-bad-belzig
     NODENAME: node-002.sva
+bb-birkenwerder-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-birkenwerder
+    NODENAME: node-002.sva
 bb-eberswalde-build:
   extends: .docker_build_release
   variables:
@@ -147,6 +152,12 @@ bb-bad-belzig-deploy:
   needs: ["bb-bad-belzig-build"]
   variables:
     PROJECT: bb-bad-belzig
+    QUANTUM_ENDPOINT: sva
+bb-birkenwerder-deploy:
+  extends: .deploy_release
+  needs: ["bb-birkenwerder-build"]
+  variables:
+    PROJECT: bb-birkenwerder
     QUANTUM_ENDPOINT: sva
 bb-eberswalde-deploy:
   extends: .deploy_release

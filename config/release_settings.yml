@@ -8,6 +8,11 @@ bb_bad_belzig:
   target_server: "https://json.bb-bad-belzig.smart-village.app/api"
   dashboard_project_id: "6os4gwyn3gy1x1hogiyodzeflhtsvrc1n9srobtxo4527deh"
 
+bb_birkenwerder:
+  oauth_server: "https://server.bb-birkenwerder.smart-village.app"
+  target_server: "https://json.bb-birkenwerder.smart-village.app/api"
+  dashboard_project_id: "x1lmnim8mcfpdq02mncx0qibistoe9s78vu9jby4axh89lrl"
+
 bb_eberswalde:
   oauth_server: "https://server.bb-eberswalde.smart-village.app"
   target_server: "https://json.bb-eberswalde.smart-village.app/api"
