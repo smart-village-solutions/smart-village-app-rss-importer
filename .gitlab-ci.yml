@@ -43,7 +43,7 @@ docker_build:
     - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   tags: [v2]
   allow_failure: false
-  when: manual
+  when: on_success
   only:
     - releases
 
@@ -64,10 +64,20 @@ docker_build:
 
 # List of Releases:
 #
+# bb-amt-schlieben
+# bb-angermuende
+# bb-bad-belzig
+# bb-birkenwerder
 # bb-eberswalde
-# bb-havelland
-# bb-hohen_neuendorf
+# bb-eisenhuettenstadt
+# bb-falkenberg-elster
 # bb-frankfurt
+# bb-gransee
+# bb-havelland
+# bb-herzberg-elster
+# bb-hohen-neuendorf
+# bb-kyritz
+# bb-michendorf
 # bb-ruedersdorf
 # bb-schoenefeld
 # bb-seelow
@@ -77,25 +87,75 @@ docker_build:
 #
 # List of releases to build
 #
+bb-amt-schlieben-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-amt-schlieben
+    NODENAME: node-002.sva
+bb-angermuende-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-angermuende
+    NODENAME: node-002.sva
+bb-bad-belzig-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-bad-belzig
+    NODENAME: node-002.sva
+bb-birkenwerder-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-birkenwerder
+    NODENAME: node-002.sva
 bb-eberswalde-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-eberswalde
+    NODENAME: node-002.sva
+bb-eisenhuettenstadt-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-eisenhuettenstadt
+    NODENAME: node-002.sva
+bb-falkenberg-elster-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-falkenberg-elster
     NODENAME: node-002.sva
 bb-frankfurt-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-frankfurt
     NODENAME: node-002.sva
+bb-gransee-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-gransee
+    NODENAME: node-002.sva
 bb-havelland-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-havelland
     NODENAME: node-002.sva
+bb-herzberg-elster-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-herzberg-elster
+    NODENAME: node-002.sva
 bb-hohen-neuendorf-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-hohen-neuendorf
+    NODENAME: node-002.sva
+bb-kyritz-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-kyritz
+    NODENAME: node-002.sva
+bb-michendorf-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-michendorf
     NODENAME: node-002.sva
 bb-ruedersdorf-build:
   extends: .docker_build_release
@@ -121,11 +181,47 @@ bb-uckermark-build:
 #
 # List of releases to deploy
 #
+bb-amt-schlieben-deploy:
+  extends: .deploy_release
+  needs: ["bb-amt-schlieben-build"]
+  variables:
+    PROJECT: bb-amt-schlieben
+    QUANTUM_ENDPOINT: sva
+bb-angermuende-deploy:
+  extends: .deploy_release
+  needs: ["bb-angermuende-build"]
+  variables:
+    PROJECT: bb-angermuende
+    QUANTUM_ENDPOINT: sva
+bb-bad-belzig-deploy:
+  extends: .deploy_release
+  needs: ["bb-bad-belzig-build"]
+  variables:
+    PROJECT: bb-bad-belzig
+    QUANTUM_ENDPOINT: sva
+bb-birkenwerder-deploy:
+  extends: .deploy_release
+  needs: ["bb-birkenwerder-build"]
+  variables:
+    PROJECT: bb-birkenwerder
+    QUANTUM_ENDPOINT: sva
 bb-eberswalde-deploy:
   extends: .deploy_release
   needs: ["bb-eberswalde-build"]
   variables:
     PROJECT: bb-eberswalde
+    QUANTUM_ENDPOINT: sva
+bb-eisenhuettenstadt-deploy:
+  extends: .deploy_release
+  needs: ["bb-eisenhuettenstadt-build"]
+  variables:
+    PROJECT: bb-eisenhuettenstadt
+    QUANTUM_ENDPOINT: sva
+bb-falkenberg-elster-deploy:
+  extends: .deploy_release
+  needs: ["bb-falkenberg-elster-build"]
+  variables:
+    PROJECT: bb-falkenberg-elster
     QUANTUM_ENDPOINT: sva
 bb-frankfurt-deploy:
   extends: .deploy_release
@@ -133,17 +229,41 @@ bb-frankfurt-deploy:
   variables:
     PROJECT: bb-frankfurt
     QUANTUM_ENDPOINT: sva
+bb-gransee-deploy:
+  extends: .deploy_release
+  needs: ["bb-gransee-build"]
+  variables:
+    PROJECT: bb-gransee
+    QUANTUM_ENDPOINT: sva
 bb-havelland-deploy:
   extends: .deploy_release
   needs: ["bb-havelland-build"]
   variables:
     PROJECT: bb-havelland
     QUANTUM_ENDPOINT: sva
+bb-herzberg-elster-deploy:
+  extends: .deploy_release
+  needs: ["bb-herzberg-elster-build"]
+  variables:
+    PROJECT: bb-herzberg-elster
+    QUANTUM_ENDPOINT: sva
 bb-hohen-neuendorf-deploy:
   extends: .deploy_release
   needs: ["bb-hohen-neuendorf-build"]
   variables:
     PROJECT: bb-hohen-neuendorf
+    QUANTUM_ENDPOINT: sva
+bb-kyritz-deploy:
+  extends: .deploy_release
+  needs: ["bb-kyritz-build"]
+  variables:
+    PROJECT: bb-kyritz
+    QUANTUM_ENDPOINT: sva
+bb-michendorf-deploy:
+  extends: .deploy_release
+  needs: ["bb-michendorf-build"]
+  variables:
+    PROJECT: bb-michendorf
     QUANTUM_ENDPOINT: sva
 bb-ruedersdorf-deploy:
   extends: .deploy_release

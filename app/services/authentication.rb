@@ -11,7 +11,6 @@ class Authentication
     uri.query_values = {
       client_id: @feed[:auth][:key],
       client_secret: @feed[:auth][:secret],
-      redirect_uri: ReleaseSettings.oauth_callback,
       grant_type: "client_credentials"
     }
 
