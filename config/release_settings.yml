@@ -23,6 +23,11 @@ bb_havelland:
   target_server: "https://json.bb-havelland.smart-village.app/api"
   dashboard_project_id: "1w2tt902egvu0e5nq8jwi5gzberihpsrjkuri8xcfx1vnx6u"
 
+bb_herzberg_elster:
+  oauth_server: "https://server.bb-herzberg-elster.smart-village.app"
+  target_server: "https://json.bb-herzberg-elster.smart-village.app/api"
+  dashboard_project_id: "w3bp7vjjl3o8r4guyigak7m5ok1bccbc3i59wa86yevn9s8m"
+
 bb_hohen_neuendorf:
   oauth_server: "https://server.bb-hohen-neuendorf.smart-village.app"
   target_server: "https://json.bb-hohen-neuendorf.smart-village.app/api"

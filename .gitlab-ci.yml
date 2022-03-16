@@ -102,6 +102,11 @@ bb-havelland-build:
   variables:
     PROJECT: bb-havelland
     NODENAME: node-002.sva
+bb-herzberg-elster-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-herzberg-elster
+    NODENAME: node-002.sva
 bb-hohen-neuendorf-build:
   extends: .docker_build_release
   variables:
@@ -160,6 +165,12 @@ bb-havelland-deploy:
   needs: ["bb-havelland-build"]
   variables:
     PROJECT: bb-havelland
+    QUANTUM_ENDPOINT: sva
+bb-herzberg-elster-deploy:
+  extends: .deploy_release
+  needs: ["bb-herzberg-elster-build"]
+  variables:
+    PROJECT: bb-herzberg-elster
     QUANTUM_ENDPOINT: sva
 bb-hohen-neuendorf-deploy:
   extends: .deploy_release
