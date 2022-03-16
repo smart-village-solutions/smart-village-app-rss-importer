@@ -23,6 +23,11 @@ bb_eisenhuettenstadt:
   target_server: "https://json.bb-eisenhuettenstadt.smart-village.app/api"
   dashboard_project_id: "govby43soiz8o439d4sz1ijzm6z4y7u9sb2q38dvuvao06ag"
 
+bb_falkenberg_elster:
+  oauth_server: "https://server.bb-falkenberg-elster.smart-village.app"
+  target_server: "https://json.bb-falkenberg-elster.smart-village.app/api"
+  dashboard_project_id: "vy44tnj43il089u810vz75ij04ptcfll558wie8xywg0k8in"
+
 bb_frankfurt:
   oauth_server: "https://server.bb-frankfurt.smart-village.app"
   target_server: "https://json.bb-frankfurt.smart-village.app/api"

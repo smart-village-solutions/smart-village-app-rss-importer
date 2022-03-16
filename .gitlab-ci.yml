@@ -102,6 +102,11 @@ bb-eisenhuettenstadt-build:
   variables:
     PROJECT: bb-eisenhuettenstadt
     NODENAME: node-002.sva
+bb-falkenberg-elster-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-falkenberg-elster
+    NODENAME: node-002.sva
 bb-frankfurt-build:
   extends: .docker_build_release
   variables:
@@ -175,6 +180,12 @@ bb-eisenhuettenstadt-deploy:
   needs: ["bb-eisenhuettenstadt-build"]
   variables:
     PROJECT: bb-eisenhuettenstadt
+    QUANTUM_ENDPOINT: sva
+bb-falkenberg-elster-deploy:
+  extends: .deploy_release
+  needs: ["bb-falkenberg-elster-build"]
+  variables:
+    PROJECT: bb-falkenberg-elster
     QUANTUM_ENDPOINT: sva
 bb-frankfurt-deploy:
   extends: .deploy_release
