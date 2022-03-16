@@ -77,6 +77,11 @@ docker_build:
 #
 # List of releases to build
 #
+bb-amt-schlieben-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-amt-schlieben
+    NODENAME: node-002.sva
 bb-eberswalde-build:
   extends: .docker_build_release
   variables:
@@ -121,6 +126,12 @@ bb-uckermark-build:
 #
 # List of releases to deploy
 #
+bb-amt-schlieben-deploy:
+  extends: .deploy_release
+  needs: ["bb-amt-schlieben-build"]
+  variables:
+    PROJECT: bb-amt-schlieben
+    QUANTUM_ENDPOINT: sva
 bb-eberswalde-deploy:
   extends: .deploy_release
   needs: ["bb-eberswalde-build"]
