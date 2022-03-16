@@ -1,59 +1,49 @@
 bb_amt_schlieben:
   oauth_server: "https://server.bb-amt-schlieben.smart-village.app"
-  oauth_callback: "https://rss-importer.bb-amt-schlieben.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-amt-schlieben.smart-village.app/api"
   dashboard_project_id: "9o4zqzklxdmcy285nyltlazrido44bsy2udzx37j02r4wmdz"
 
 bb_eberswalde:
   oauth_server: "https://server.bb-eberswalde.smart-village.app"
-  oauth_callback: "https://rss-importer.bb-eberswalde.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-eberswalde.smart-village.app/api"
   dashboard_project_id: "t79y544dnqlxhco985nhojayyk2a8ggx47ymqxvxp1294mhs"
 
 bb_frankfurt:
   oauth_server: "https://server.bb-frankfurt.smart-village.app"
-  oauth_allback: "https://rss-importer.bb-frankfurt.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-frankfurt.smart-village.app/api"
   dashboard_project_id: "oimlg8hxf990ufbvp159l3gklkmb7d8nhqy1h2acjuczzl4x"
 
 bb_havelland:
   oauth_server: "https://server.bb-havelland.smart-village.app"
-  oauth_allback: "https://rss-importer.bb-havelland.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-havelland.smart-village.app/api"
   dashboard_project_id: "1w2tt902egvu0e5nq8jwi5gzberihpsrjkuri8xcfx1vnx6u"
 
 bb_hohen_neuendorf:
   oauth_server: "https://server.bb-hohen-neuendorf.smart-village.app"
-  oauth_allback: "https://rss-importer.bb-hohen-neuendorf.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-hohen-neuendorf.smart-village.app/api"
   dashboard_project_id: "g4f9em34rsxxpj8axxozpc6441t989s5m15plnk5rp8whd82"
 
 bb_ruedersdorf:
   oauth_server: "https://server.bb-ruedersdorf.smart-village.app"
-  oauth_allback: "https://rss-importer.bb-ruedersdorf.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-ruedersdorf.smart-village.app/api"
   dashboard_project_id: "tb5jou75x05umuerik1uat7xrtr5qg51g05h2q7he8pxcpdl"
 
 bb_seelow:
   oauth_server: "https://server.bb-seelow.smart-village.app"
-  oauth_callback: "https://rss-importer.bb-seelow.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-seelow.smart-village.app/api"
   dashboard_project_id: "hn5gja1vsbfaf7e9d5bzlknqjwqrfaer5sou0ti4ea5mk9j8"
 
 bb_schoenefeld:
   oauth_server: "https://server.bb-schoenefeld.smart-village.app"
-  oauth_callback: "https://rss-importer.bb-schoenefeld.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-schoenefeld.smart-village.app/api"
   dashboard_project_id: "eruvz76rx8h3hogs5ogc6jgl9bvtzun789pioj4iocapetd4"
 
 bb_uckermark:
   oauth_server: "https://server.bb-uckermark.smart-village.app"
-  oauth_callback: "https://rss-importer.bb-uckermark.smart-village.app/oauth/confirm_access"
   target_server: "https://json.bb-uckermark.smart-village.app/api"
   dashboard_project_id: "n5ck8fphaw4c2ddyoz1oswvtmmtyfcg01e8xtb3ftbjf6b6u"
 
 local_localhost:
   oauth_server: "http://localhost:4000"
-  oauth_callback: "http://localhost:3000/oauth/confirm_access"
   target_server: "http://localhost:5000/api"
   dashboard_project_id: "randomrandomrandomrandomrandomrandomrandomrandom"
