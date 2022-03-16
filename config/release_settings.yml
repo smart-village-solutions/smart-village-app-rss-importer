@@ -3,6 +3,11 @@ bb_amt_schlieben:
   target_server: "https://json.bb-amt-schlieben.smart-village.app/api"
   dashboard_project_id: "9o4zqzklxdmcy285nyltlazrido44bsy2udzx37j02r4wmdz"
 
+bb_angermuende:
+  oauth_server: "https://server.bb-angermuende.smart-village.app"
+  target_server: "https://json.bb-angermuende.smart-village.app/api"
+  dashboard_project_id: "wbzptm2jtroi49r468y4cd4f1lsj8qkkzx46b8d7qvl16mcb"
+
 bb_bad_belzig:
   oauth_server: "https://server.bad-belzig.smart-village.app"
   target_server: "https://json.bb-bad-belzig.smart-village.app/api"
