@@ -64,10 +64,20 @@ docker_build:
 
 # List of Releases:
 #
+# bb-amt-schlieben
+# bb-angermuende
+# bb-bad-belzig
+# bb-birkenwerder
 # bb-eberswalde
-# bb-havelland
-# bb-hohen_neuendorf
+# bb-eisenhuettenstadt
+# bb-falkenberg-elster
 # bb-frankfurt
+# bb-gransee
+# bb-havelland
+# bb-herzberg-elster
+# bb-hohen-neuendorf
+# bb-kyritz
+# bb-michendorf
 # bb-ruedersdorf
 # bb-schoenefeld
 # bb-seelow
