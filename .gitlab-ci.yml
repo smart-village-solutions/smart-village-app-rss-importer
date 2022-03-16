@@ -97,6 +97,11 @@ bb-eberswalde-build:
   variables:
     PROJECT: bb-eberswalde
     NODENAME: node-002.sva
+bb-eisenhuettenstadt-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-eisenhuettenstadt
+    NODENAME: node-002.sva
 bb-frankfurt-build:
   extends: .docker_build_release
   variables:
@@ -164,6 +169,12 @@ bb-eberswalde-deploy:
   needs: ["bb-eberswalde-build"]
   variables:
     PROJECT: bb-eberswalde
+    QUANTUM_ENDPOINT: sva
+bb-eisenhuettenstadt-deploy:
+  extends: .deploy_release
+  needs: ["bb-eisenhuettenstadt-build"]
+  variables:
+    PROJECT: bb-eisenhuettenstadt
     QUANTUM_ENDPOINT: sva
 bb-frankfurt-deploy:
   extends: .deploy_release

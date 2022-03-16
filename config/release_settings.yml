@@ -18,6 +18,11 @@ bb_eberswalde:
   target_server: "https://json.bb-eberswalde.smart-village.app/api"
   dashboard_project_id: "t79y544dnqlxhco985nhojayyk2a8ggx47ymqxvxp1294mhs"
 
+bb_eisenhuettenstadt:
+  oauth_server: "https://server.eisenhuettenstadt.smart-village.app"
+  target_server: "https://json.bb-eisenhuettenstadt.smart-village.app/api"
+  dashboard_project_id: "govby43soiz8o439d4sz1ijzm6z4y7u9sb2q38dvuvao06ag"
+
 bb_frankfurt:
   oauth_server: "https://server.bb-frankfurt.smart-village.app"
   target_server: "https://json.bb-frankfurt.smart-village.app/api"
