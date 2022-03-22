@@ -40,7 +40,7 @@ class Record < ApplicationRecord
     #   "category_when_match_found": "Nachrichten",
     #   "category_when_no_match_found": "Nachrichten (unwichtig)"
     # }
-    @keyword_search = feed.fetch(:keyword_search)
+    @keyword_search = feed.dig(:keyword_search)
 
     @xml_doc.xpath(feed_item_path).each do |xml_item|
       json_data = parse_single_news_from_xml(xml_item)
