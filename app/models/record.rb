@@ -158,10 +158,18 @@ class Record < ApplicationRecord
 
     def publication_date(xml_item)
       if feed[:import][:date].present?
-        DateTime.parse(xml_item.at_xpath(feed[:import][:date]).try(:text))
+        begin
+          DateTime.parse(xml_item.at_xpath(feed[:import][:date]).try(:text))
+        rescue
+          fallback_publication_date(xml_item)
+        end
       else
-        xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text) || xml_item.at_xpath("published").try(:text)
+        fallback_publication_date(xml_item)
       end
+    end
+
+    def fallback_publication_date(xml_item)
+      xml_item.at_xpath("pubDate").try(:text).presence || xml_item.at_xpath("date").try(:text) || xml_item.at_xpath("published").try(:text)
     end
 
     # Content ist meinst in folgenden Stellen im RSS,
