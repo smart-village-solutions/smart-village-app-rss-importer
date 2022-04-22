@@ -83,6 +83,8 @@ docker_build:
 # bb-seelow
 # bb-uckermark
 #
+# mv-hagenow
+#
 
 #
 # List of releases to build
@@ -176,6 +178,11 @@ bb-uckermark-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-uckermark
+    NODENAME: node-002.sva
+mv-hagenow-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: mv-hagenow
     NODENAME: node-002.sva
 
 #
@@ -288,4 +295,10 @@ bb-uckermark-deploy:
   needs: ["bb-uckermark-build"]
   variables:
     PROJECT: bb-uckermark
+    QUANTUM_ENDPOINT: sva
+mv-hagenow-deploy:
+  extends: .deploy_release
+  needs: ["mv-hagenow-build"]
+  variables:
+    PROJECT: mv-hagenow
     QUANTUM_ENDPOINT: sva
