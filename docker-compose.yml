@@ -7,8 +7,6 @@ services:
       POSTGRES_USER: smart
       POSTGRES_PASSWORT: smart
       POSTGRES_DB: smart
-    networks:
-      public:
     volumes:
       - db:/var/lib/postgresql/data
     deploy:

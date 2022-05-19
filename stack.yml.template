@@ -5,7 +5,6 @@ services:
     image: registry.gitlab.tpwd.de/ikusei/smart-village-app-rss-importer
     networks:
       - default
-      - public
       - smart-village-app-${PROJECT}-rss-importer
     environment:
       RAILS_ENV: production
