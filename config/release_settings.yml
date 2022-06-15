@@ -88,6 +88,16 @@ bb_uckermark:
   target_server: "https://json.bb-uckermark.smart-village.app/api"
   dashboard_project_id: "n5ck8fphaw4c2ddyoz1oswvtmmtyfcg01e8xtb3ftbjf6b6u"
 
+bb_bernau:
+  oauth_server: "https://server.bb-bernau.smart-village.app"
+  target_server: "https://json.bb-bernau.smart-village.app/api"
+  dashboard_project_id: "cnolnb1c6qjxsx2v0tay63kjhzrjyo39f1x9ibu8eeiqbx2d"
+  
+bb_nuthetal:
+  oauth_server: "https://server.bb-unuthetal.smart-village.app"
+  target_server: "https://json.bb-nuthetal.smart-village.app/api"
+  dashboard_project_id: "xuv9l52s46fzn875jwf1nj04d3tpa6csq0lua3nrwucwsmzq"
+
 mv_hagenow:
   oauth_server: "https://server.mv-hagenow.smart-village.app"
   target_server: "https://json.mv-hagenow.smart-village.app/api"
