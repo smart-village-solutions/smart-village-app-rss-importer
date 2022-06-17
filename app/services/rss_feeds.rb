@@ -26,7 +26,11 @@ class RssFeeds
     end
 
     list_of_feed_urls.each do |feed|
-      Importer.new(feed: feed)
+      begin
+        Importer.new(feed: feed)
+      rescue => e
+        Rails.logger.error "Feed #{feed[:name]} #{feed[:url]} fehlgeschlagen: #{e.message}"
+      end
     end
   end
 end
