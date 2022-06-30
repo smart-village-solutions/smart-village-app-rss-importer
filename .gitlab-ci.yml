@@ -83,6 +83,7 @@ docker_build:
 # bb-seelow
 # bb-uckermark
 # bb-bernau
+# bb-prenzlau
 # bb-nuthetal
 #
 # mv-hagenow
@@ -185,12 +186,17 @@ bb-bernau-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-bernau
-    NODENAME: node-002.sva   
+    NODENAME: node-002.sva
+bb-prenzlau-build:
+  extends: .docker_build_release
+  variables:
+    PROJECT: bb-prenzlau
+    NODENAME: node-002.sva
 bb-nuthetal-build:
   extends: .docker_build_release
   variables:
     PROJECT: bb-nuthetal
-    NODENAME: node-002.sva    
+    NODENAME: node-002.sva
 mv-hagenow-build:
   extends: .docker_build_release
   variables:
@@ -314,12 +320,18 @@ bb-bernau-deploy:
   variables:
     PROJECT: bb-bernau
     QUANTUM_ENDPOINT: sva
+bb-prenzlau-deploy:
+  extends: .deploy_release
+  needs: ["bb-prenzlau-build"]
+  variables:
+    PROJECT: bb-prenzlau
+    QUANTUM_ENDPOINT: sva
 bb-nuthetal-deploy:
   extends: .deploy_release
   needs: ["bb-nuthetal-build"]
   variables:
     PROJECT: bb-nuthetal
-    QUANTUM_ENDPOINT: sva        
+    QUANTUM_ENDPOINT: sva
 mv-hagenow-deploy:
   extends: .deploy_release
   needs: ["mv-hagenow-build"]
