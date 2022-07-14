@@ -16,17 +16,7 @@ services:
     deploy:
       replicas: 0
       restart_policy:
-        condition: none
-      labels:
-        swarm.cronjob.enable: "true"
-        swarm.cronjob.skip-running: "true"
-        swarm.cronjob.schedule: 1 1 * * * *
-        traefik.docker.network: public
-        traefik.enable: "true"
-        traefik.frontend.passHostHeader: "true"
-        traefik.frontend.redirect.entryPoint: https
-        traefik.frontend.rule: Host:rss-importer.FOOBAR.smart-village.app
-        traefik.port: '80'
+        condition: on-failure
 
   db:
     volumes:
