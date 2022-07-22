@@ -109,6 +109,6 @@ mv_hagenow:
   dashboard_project_id: "2la5agdbn7cerw51ytokxb69nq1z9xcceocfulpnh6e7cwns"
 
 local_localhost:
-  oauth_server: "http://localhost:4000"
-  target_server: "http://localhost:5000/api"
-  dashboard_project_id: "randomrandomrandomrandomrandomrandomrandomrandom"
+  oauth_server: "https://server.int-development.smart-village.app/"
+  target_server: "https://json.int-development.smart-village.app/api"
+  dashboard_project_id: "443r7abv5l25g6okfi9hojtet03fkr8d1hkj4bkbwph87if6"
