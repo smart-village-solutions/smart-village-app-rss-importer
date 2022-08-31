@@ -67,14 +67,38 @@ class Record < ApplicationRecord
 
   private
 
+    # Regex to match time manipulation string:
+    # "- 1.hour"
+    # "- 2.hours"
+    # "- 1.hour + 2.minutes"
+    # "- 60.days"
+    # "+ 1.day - 60.minutes"
+    # "- 1.day + 6.minutes - 3.hours"
+    def date_time_transformation(date_time)
+      return date_time if date_time.blank?
+
+      date_time_manipulation = feed.dig("import", "date_options", "date_time_manipulation")
+      return date_time if date_time_manipulation.blank?
+
+      # Regex to match time manipulation string
+      valid_date_operations = /([-+ \d\.]*(days|day|hours|hour|minutes|minute)\s*)+/
+      return date_time unless (valid_date_operations =~ date_time_manipulation).zero?
+
+      begin
+        eval("date_time #{date_time_manipulation}")
+      rescue
+        date_time
+      end
+    end
+
     def parse_single_news_from_xml(xml_item)
       {
         external_id: parse_content_external_id(xml_item),
         author: parse_author(xml_item),
         full_version: false,
         news_type: "news",
-        publication_date: publication_date(xml_item),
-        published_at: publication_date(xml_item),
+        publication_date: date_time_transformation(publication_date(xml_item)),
+        published_at: date_time_transformation(publication_date(xml_item)),
         source_url: {
           url: xml_item.at_xpath("link").try(:text).presence || xml_item.at_xpath("link").attributes.fetch("href", nil).try(:text),
           description: "source url of original article"
@@ -98,8 +122,8 @@ class Record < ApplicationRecord
         category_name: xml_item.at_xpath("category").try(:text),
         dates: [
           {
-            date_start: publication_date(xml_item),
-            time_start: publication_date(xml_item),
+            date_start: date_time_transformation(publication_date(xml_item)),
+            time_start: date_time_transformation(publication_date(xml_item)),
             time_description: xml_item.at_xpath("encoded").try(:text).to_s[0,254],
             use_only_time_description: false
           }
