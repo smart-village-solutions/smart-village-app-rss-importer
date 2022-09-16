@@ -94,8 +94,8 @@ bb_bernau:
   dashboard_project_id: "cnolnb1c6qjxsx2v0tay63kjhzrjyo39f1x9ibu8eeiqbx2d"
 
 bb_prenzlau:
-  oauth_server: "https://server.bb-prenzlau.smart-village.app"
-  target_server: "https://json.bb-prenzlau.smart-village.app/api"
+  oauth_server: "https://bb-prenzlau.server.smart-village.app"
+  target_server: "https://bb-prenzlau.json.smart-village.app/api"
   dashboard_project_id: "uf6jly9mjdkp01slcz4o87xis8yxu7jlilfyal782uaia5t0"
 
 bb_nuthetal:
