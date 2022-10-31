@@ -4,11 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.7.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 6.0.0.rc1"
+gem "rails", "~> 6.0.0.0"
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
-gem "puma", "~> 3.11"
+gem "puma", "~> 3.12", ">= 3.12.6"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem "jbuilder", "~> 2.5"
 # Use Redis adapter to run Action Cable in production
@@ -26,7 +26,7 @@ gem "gelf"
 gem "bootsnap", ">= 1.4.2", require: false
 
 # Parsing XML documents
-gem "nokogiri"
+gem "nokogiri", ">= 1.11.0"
 
 gem "addressable"
 gem "audited", github: "collectiveidea/audited"
@@ -46,7 +46,7 @@ group :development do
   gem "annotate"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "rb-readline"
-  gem "spring-watcher-listen", "~> 2.0.0"
+  gem "spring-watcher-listen", "~> 2.0.1"
   gem "spring"
   gem "codeclimate-test-reporter"
   gem "database_cleaner"
