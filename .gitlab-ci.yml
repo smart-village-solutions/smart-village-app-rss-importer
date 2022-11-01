@@ -1,51 +1,66 @@
-image: nixos/nix:2.2.1
-
 variables:
   DOCKER_HOST: tcp://docker:2375/
-  TARGET_HOST: smartvillage.app
-
-services:
-  - docker:dind
+  QUANTUM_CLI: registry.internal.planetary-networks.de/quantum-public/cli:2
+  QUANTUM_ENDPOINT: sva
+  DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
 
 stages:
   - build
   - tag
+  - predeploy
   - deploy
 
-build:
-  stage: build
-  before_script:
-    - nix-env -iA nixpkgs.docker
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:latest
+services:
+  - docker:19.03.0-dind
 
-tag:
-  stage: tag
-  before_script:
-    - nix-env -iA nixpkgs.docker
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+before_script:
+  - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+.docker-build: &docker-build
+  stage: build
   script:
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:production
-    - docker push $CI_REGISTRY_IMAGE:production
+    - docker pull $IMAGE:latest || true
+    - docker build --cache-from $IMAGE:latest --tag $IMAGE:$CI_COMMIT_SHA --tag $IMAGE:latest -f $DOCKERFILE .
+    - docker push $IMAGE:$CI_COMMIT_SHA
+    - docker push $IMAGE:latest
+
+.quantum-conf: &quantum-conf
+  stage: predeploy
+  image:
+    name: docker/compose:1.25.0
+  cache:
+    key: "${CI_PIPELINE_ID}-${PROJECT}"
+    paths: [quantum.yml]
+  script:
+    - docker-compose -f docker-compose.yml -f stack.yml config > quantum.yml
   only:
-    - master
+    - release/bb/FOOBAR
+
+.deploy: &deploy
+  stage: deploy
+  image: $QUANTUM_CLI
+  cache:
+    key: "${CI_PIPELINE_ID}-${PROJECT}"
+    paths: [quantum.yml]
+  script:
+    - quantum-cli stack update --create --stack $PROJECT-$QUANTUM_ENDPOINT --wait
+  tags: [v2]
+  only:
+    - release/bb/FOOBAR
+
+build-app:
+  variables:
+    IMAGE: $CI_REGISTRY_IMAGE/bb-FOOBAR-rss_importer
+    DOCKERFILE: Dockerfile
+  <<: *docker-build
+
+app-conf:
+  <<: *quantum-conf
+  variables:
+    PROJECT: bb-FOOBAR-rss_importer
 
 deploy:
-  stage: deploy
-  before_script:
-    - nix-env -iA nixpkgs.openssh
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-  script:
-    - ssh gitlab@$TARGET_HOST sudo salt-call --local --retcode-passthrough state.apply bad-belzig.rss-importer
-  only:
-    - master
+  <<: *deploy
+  variables:
+    PROJECT: bb-FOOBAR-rss_importer
