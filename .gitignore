@@ -30,3 +30,4 @@
 /config/credentials/test.key
 /config/credentials/development.key
 config/settings.yml
+/config/config_credential.keys
