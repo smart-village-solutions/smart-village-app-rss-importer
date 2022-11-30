@@ -1,10 +1,10 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.1"
+ruby "3.0.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 6.0.0.rc1"
+gem "rails", "~> 6.0.3.4"
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
@@ -17,7 +17,9 @@ gem "puma", "~> 3.11"
 # gem "bcrypt", "~> 3.1.7"
 
 gem "rollbar"
-gem "gelf"
+# gem "gelf"
+
+gem "mimemagic", ">= 0.3.6"
 
 # Use Active Storage variant
 # gem "image_processing", "~> 1.2"
@@ -29,13 +31,14 @@ gem "bootsnap", ">= 1.4.2", require: false
 gem "nokogiri"
 
 gem "addressable"
-gem "audited", github: "collectiveidea/audited"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
 
 gem "unicorn"
 gem "whenever"
+
+gem "cronjob_service"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
