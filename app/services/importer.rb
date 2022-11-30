@@ -11,9 +11,9 @@ class Importer
   def initialize(feed: nil)
     @feed = feed
 
-    @record = Record.new(source_url: @feed[:url], feed: @feed)
-    @record.load_rss_data
-    @record.convert_rss_to_hash
+    @record = Record.new
+    @record.load_rss_data(@feed)
+    @record.convert_rss_to_hash(@feed)
     send_json_to_server
   end
 
@@ -24,9 +24,8 @@ class Importer
 
     begin
       result = ApiRequestService.new(url, nil, nil, @record.json_data, {Authorization: "Bearer #{access_token}"}).post_request
-      @record.update(updated_at: Time.now, audit_comment: result.body)
+      CronjobService::Notifier.push(Rails.application.credentials.cronjob_service[:project_id], @feed[:name], url: @feed[:url], result: result)
     rescue => e
-      @record.update(updated_at: Time.now, audit_comment: e)
       Rollbar.error("API Request Error.", full_message: e)
     end
   end
