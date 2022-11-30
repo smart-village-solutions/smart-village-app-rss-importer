@@ -3,15 +3,9 @@
 class Record < ApplicationRecord
   attr_accessor :source_url, :feed
 
-  audited only: :updated_at
-
-  def initialize(source_url: nil, feed: nil)
-    @source_url = source_url
+  def load_rss_data(feed)
     @feed = feed
-    super
-  end
-
-  def load_rss_data
+    source_url = feed[:url]
     result = ApiRequestService.new(source_url).get_request(false)
 
     return unless result.code == "200"
@@ -24,7 +18,8 @@ class Record < ApplicationRecord
     hash_data.to_json
   end
 
-  def convert_rss_to_hash
+  def convert_rss_to_hash(feed)
+    @feed = feed
     news_data = []
     @xml_doc = Nokogiri.XML(xml_data)
     @xml_doc.remove_namespaces!
@@ -74,13 +69,20 @@ class Record < ApplicationRecord
           width: image_item.at_xpath(feed[:import][:images][:width]).try(:text).to_i,
           height: image_item.at_xpath(feed[:import][:images][:height]).try(:text).to_i,
           source_url: {
-            url: image_item.at_xpath(feed[:import][:images][:source_url]).try(:text)
+            url: parse_image_url(image_item)
           }
         }
         media << image_data
       end
 
       media.compact.flatten
+    end
+
+    def parse_image_url(image_item)
+      return nil if feed[:import][:images][:source_url].blank?
+      return image_item[feed[:import][:images][:source_url]] if feed.dig(:import, :images, :source_url_as_attribute) == true
+
+      image_item.at_xpath(feed[:import][:images][:source_url]).try(:text)
     end
 
     def publication_date(xml_item)
@@ -115,9 +117,18 @@ class Record < ApplicationRecord
     end
 
     def parse_content_title(xml_item)
-      return xml_item.at_xpath("title").try(:text) if feed[:import][:title].blank?
+      if feed[:import][:title].present?
+        title = xml_item.at_xpath(feed[:import][:title]).try(:text)
+      else
+        title = xml_item.at_xpath("title").try(:text)
+      end
 
-      xml_item.at_xpath(feed[:import][:title]).try(:text)
+      if feed[:remove_prefixed_date_in_title].present? &&
+         feed[:remove_prefixed_date_in_title] == true
+        return remove_prefixed_date_in(title)
+      end
+
+      title
     end
 
     def parse_author(xml_item)
@@ -126,6 +137,10 @@ class Record < ApplicationRecord
       rescue Nokogiri::XML::XPath::SyntaxError
         ""
       end
+    end
+
+    def remove_prefixed_date_in(text)
+      text.gsub(/^\d{1,2}\.\d{1,2}\.\d{2,4}:?\s*/, "")
     end
 end
 
